@@ -347,6 +347,12 @@ export const schemaTypes = [
     name: 'service',
     title: 'Service',
     type: 'document',
+    preview: {
+      select: { en: 'title.en', ar: 'title.ar', slug: 'slug.current', media: 'image' },
+      prepare({ en, ar, slug, media }) {
+        return { title: en || ar || slug || '(no title)', subtitle: slug ? `/services/${slug}` : '', media }
+      },
+    },
     fields: [
       {
         name: 'seo',
@@ -470,6 +476,12 @@ export const schemaTypes = [
   name: 'caseStudy',
   title: 'Case Study',
   type: 'document',
+  preview: {
+    select: { en: 'title.en', ar: 'title.ar', slug: 'slug.current', media: 'image' },
+    prepare({ en, ar, slug, media }) {
+      return { title: en || ar || slug || '(no title)', subtitle: slug ? `/case-studies/${slug}` : '', media }
+    },
+  },
   fields: [
     {
       name: 'seo',
@@ -573,6 +585,13 @@ export const schemaTypes = [
   name: 'blog',
   title: 'Blog',
   type: 'document',
+  preview: {
+    select: { en: 'title.en', ar: 'title.ar', slug: 'slug.current', media: 'image', date: 'publishedAt' },
+    prepare({ en, ar, slug, media, date }) {
+      const dateStr = date ? new Date(date).toISOString().slice(0, 10) : ''
+      return { title: en || ar || slug || '(no title)', subtitle: [dateStr, slug && `/blog/${slug}`].filter(Boolean).join(' · '), media }
+    },
+  },
   fields: [
     {
       name: 'seo',
@@ -817,6 +836,12 @@ export const schemaTypes = [
   name: 'faq',
   title: 'FAQs',
   type: 'document',
+  preview: {
+    select: { en: 'question.en', ar: 'question.ar', category: 'category' },
+    prepare({ en, ar, category }) {
+      return { title: en || ar || '(no question)', subtitle: category || '' }
+    },
+  },
   fields: [
     {
       name: 'question',
