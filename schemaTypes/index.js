@@ -1,5 +1,10 @@
-import {strategyFormSettings} from './strategyFormSettings'
+import {localeString, localeText} from './locale'
+
 export const schemaTypes = [
+  // Localized field primitives — used throughout the schema
+  localeString,
+  localeText,
+
   // Navigation Section
   {
     name: 'navigation',
@@ -7,10 +12,38 @@ export const schemaTypes = [
     type: 'document',
     fields: [
       {
+        name: 'brandName',
+        title: 'Brand Name',
+        type: 'string',
+        description: 'Used as logo alt text, copyright, and schema.org organization name.',
+      },
+      {
         name: 'logo',
         title: 'Logo',
         type: 'image',
         options: { hotspot: true },
+      },
+      // Promo Banner (top header strip — replaces the hardcoded "Audit Your Website's SEO Now!" link)
+      {
+        name: 'promoBanner',
+        title: 'Promo Banner',
+        type: 'object',
+        fields: [
+          { name: 'enabled', title: 'Enabled?', type: 'boolean', initialValue: false },
+          { name: 'text',    title: 'Banner Text', type: 'localeString' },
+          { name: 'link',    title: 'Banner Link', type: 'string' },
+        ],
+      },
+      {
+        name: 'copyright',
+        title: 'Copyright Line',
+        type: 'localeString',
+        description: 'Shown in footer. Use {year} placeholder for the current year.',
+      },
+      {
+        name: 'contactColumnTitle',
+        title: 'Footer Contact Column Title',
+        type: 'localeString',
       },
       {
         name: 'items',
@@ -20,13 +53,19 @@ export const schemaTypes = [
           {
             type: 'object',
             fields: [
-              { name: 'label', title: 'Label', type: 'string' },
+              { name: 'label', title: 'Label', type: 'localeString' },
               { name: 'link', title: 'Link', type: 'string' },
               {
                 name: 'hasMegaMenu',
                 title: 'Has Mega Menu?',
                 type: 'boolean',
                 initialValue: false,
+              },
+              {
+                name: 'megaHeadline',
+                title: 'Mega Menu Headline',
+                type: 'localeString',
+                description: 'Shown above the mega menu items.',
               },
               {
                 name: 'megaItems',
@@ -36,8 +75,8 @@ export const schemaTypes = [
                   {
                     type: 'object',
                     fields: [
-                      { name: 'title', title: 'Title', type: 'string' },
-                      { name: 'description', title: 'Description', type: 'text' },
+                      { name: 'title', title: 'Title', type: 'localeString' },
+                      { name: 'description', title: 'Description', type: 'localeText' },
                       { name: 'link', title: 'Link', type: 'string' },
                     ],
                   },
@@ -47,8 +86,8 @@ export const schemaTypes = [
           },
         ],
       },
-        
-      { name: 'ctaText', title: 'CTA Text', type: 'string' },
+
+      { name: 'ctaText', title: 'CTA Text', type: 'localeString' },
       { name: 'ctaLink', title: 'CTA Link', type: 'string' },
 
 // Footer Information
@@ -63,7 +102,7 @@ export const schemaTypes = [
         {
           name: 'columnTitle',
           title: 'Column Title',
-          type: 'string',
+          type: 'localeString',
         },
         {
           name: 'links',
@@ -73,7 +112,7 @@ export const schemaTypes = [
             {
               type: 'object',
               fields: [
-                { name: 'label', title: 'Label', type: 'string' },
+                { name: 'label', title: 'Label', type: 'localeString' },
                 { name: 'link', title: 'Link', type: 'string' },
               ],
             },
@@ -86,12 +125,12 @@ export const schemaTypes = [
     {
   name: 'footerDescription',
   title: 'Footer Description',
-  type: 'text',
+  type: 'localeText',
 },
 {
   name: 'address',
   title: 'Company Address',
-  type: 'string',
+  type: 'localeString',
 },
 {
   name: 'phone',
@@ -102,6 +141,17 @@ export const schemaTypes = [
   name: 'email',
   title: 'Email Address',
   type: 'string',
+},
+{
+  name: 'socials',
+  title: 'Social Media',
+  type: 'object',
+  fields: [
+    { name: 'instagram', title: 'Instagram URL', type: 'url' },
+    { name: 'facebook', title: 'Facebook URL', type: 'url' },
+    { name: 'x', title: 'X (Twitter) URL', type: 'url' },
+    { name: 'youtube', title: 'YouTube URL', type: 'url' },
+  ],
 },
     ],
   },
@@ -117,12 +167,14 @@ export const schemaTypes = [
       title: 'SEO Settings',
       type: 'seo',
     },
-      { name: 'title', title: 'Hero Title', type: 'string' },
-      { name: 'subtitle', title: 'Hero Subtitle', type: 'text' },
-      { name: 'buttonText', title: 'Primary Button Text', type: 'string' },
+      { name: 'heroEyebrow', title: 'Hero Eyebrow', type: 'localeString' },
+      { name: 'title', title: 'Hero Title', type: 'localeString' },
+      { name: 'subtitle', title: 'Hero Subtitle', type: 'localeText' },
+      { name: 'heroImageAlt', title: 'Hero Image Alt Text', type: 'localeString' },
+      { name: 'buttonText', title: 'Primary Button Text', type: 'localeString' },
 { name: 'buttonLink', title: 'Primary Button Link', type: 'string' },
 
-{ name: 'secondaryButtonText', title: 'Secondary Button Text', type: 'string' },
+{ name: 'secondaryButtonText', title: 'Secondary Button Text', type: 'localeString' },
 { name: 'secondaryButtonLink', title: 'Secondary Button Link', type: 'string' },
       {
         name: 'logo',
@@ -162,7 +214,7 @@ export const schemaTypes = [
             type: 'object',
             fields: [
               { name: 'number', title: 'Number', type: 'string' },
-              { name: 'label', title: 'Label', type: 'string' },
+              { name: 'label', title: 'Label', type: 'localeString' },
             ],
           },
         ],
@@ -175,8 +227,8 @@ export const schemaTypes = [
           {
             type: 'object',
             fields: [
-              { name: 'title', title: 'Step Title', type: 'string' },
-              { name: 'text', title: 'Step Text', type: 'text' },
+              { name: 'title', title: 'Step Title', type: 'localeString' },
+              { name: 'text', title: 'Step Text', type: 'localeText' },
             ],
           },
         ],
@@ -192,7 +244,7 @@ export const schemaTypes = [
     {
       type: 'object',
       fields: [
-        { name: 'name', title: 'Name', type: 'string' },
+        { name: 'name', title: 'Name', type: 'localeString' },
         {
           name: 'logo',
           title: 'Logo',
@@ -206,22 +258,22 @@ export const schemaTypes = [
 {
   name: 'aboutEyebrow',
   title: 'About Eyebrow',
-  type: 'string',
+  type: 'localeString',
 },
 {
   name: 'aboutTitle',
   title: 'About Title',
-  type: 'string',
+  type: 'localeString',
 },
 {
   name: 'aboutText',
   title: 'About Text',
-  type: 'text',
+  type: 'localeText',
 },
 {
   name: 'aboutButtonText',
   title: 'About Button Text',
-  type: 'string',
+  type: 'localeString',
 },
 {
   name: 'aboutButtonLink',
@@ -240,11 +292,32 @@ export const schemaTypes = [
   type: 'image',
   options: { hotspot: true },
 },
-      { name: 'missionTitle', title: 'Mission Title', type: 'string' },
-      { name: 'missionText', title: 'Mission Text', type: 'text' },
-      { name: 'finalCtaTitle', title: 'Final CTA Title', type: 'string' },
-      { name: 'finalCtaText', title: 'Final CTA Text', type: 'text' },
-       
+      { name: 'missionTitle', title: 'Mission Title', type: 'localeString' },
+      { name: 'missionText', title: 'Mission Text', type: 'localeText' },
+      { name: 'finalCtaTitle', title: 'Final CTA Title', type: 'localeString' },
+      { name: 'finalCtaText', title: 'Final CTA Text', type: 'localeText' },
+
+        // Section labels (CMS-driven so editors can change every eyebrow / headline)
+        { name: 'clientsBannerTitle',    title: 'Clients Banner Title',     type: 'localeString' },
+        { name: 'systemEyebrow',         title: 'Growth System Eyebrow',    type: 'localeString' },
+        { name: 'systemTitle',           title: 'Growth System Title',      type: 'localeString' },
+        { name: 'servicesEyebrow',       title: 'Services Section Eyebrow', type: 'localeString' },
+        { name: 'servicesTitle',         title: 'Services Section Title',   type: 'localeString' },
+        { name: 'caseStudiesEyebrow',    title: 'Case Studies Eyebrow',     type: 'localeString' },
+        { name: 'caseStudiesTitle',      title: 'Case Studies Title',       type: 'localeString' },
+        { name: 'caseStudiesLinkText',   title: 'Case Studies Link Text',   type: 'localeString', description: "e.g. 'View all case studies →'" },
+        { name: 'caseStudyCardCta',      title: 'Case Study Card CTA',      type: 'localeString', description: "e.g. 'View Case Study →'" },
+        { name: 'missionEyebrow',        title: 'Mission Eyebrow',          type: 'localeString' },
+        { name: 'workEyebrow',           title: 'Work Section Eyebrow',     type: 'localeString' },
+        { name: 'workTitle',             title: 'Work Section Title',       type: 'localeString' },
+        { name: 'blogPill',              title: 'Blog Section Pill',        type: 'localeString', description: "e.g. 'Daily News'" },
+        { name: 'blogTitle',             title: 'Blog Section Title',       type: 'localeString' },
+        { name: 'blogDescription',       title: 'Blog Section Description', type: 'localeText' },
+        { name: 'blogLinkText',          title: 'Blog Section Link Text',   type: 'localeString', description: "e.g. 'Read more from the blog ›'" },
+        { name: 'proofEyebrow',          title: 'Proof Strip Eyebrow',      type: 'localeString', description: 'Shown above the hero proof items fallback.' },
+        { name: 'finalCtaButtonText',    title: 'Final CTA Button Text',    type: 'localeString' },
+        { name: 'finalCtaButtonLink',    title: 'Final CTA Button Link',    type: 'string' },
+
         // Client Logo Banner
 {
   name: 'clientLogos',
@@ -254,7 +327,7 @@ export const schemaTypes = [
     {
       type: 'object',
       fields: [
-        { name: 'name', title: 'Client Name', type: 'string' },
+        { name: 'name', title: 'Client Name', type: 'localeString' },
         {
           name: 'logo',
           title: 'Client Logo',
@@ -265,7 +338,7 @@ export const schemaTypes = [
     },
   ],
 },
-      { name: 'footerText', title: 'Footer Text', type: 'string' },
+      { name: 'footerText', title: 'Footer Text', type: 'localeString' },
     ],
   },
 
@@ -276,14 +349,29 @@ export const schemaTypes = [
     type: 'document',
     fields: [
       {
-  name: 'seo',
-  title: 'SEO Settings',
-  type: 'seo',
-},
-      { name: 'title', title: 'Title', type: 'string' },
-      { name: 'slug', title: 'Slug', type: 'slug', options: { source: 'title' } },
-      { name: 'description', title: 'Description', type: 'text' },
-      { name: 'content', title: 'Full Content', type: 'text' },
+        name: 'seo',
+        title: 'SEO Settings',
+        type: 'seo',
+      },
+      { name: 'heroEyebrow', title: 'Hero Eyebrow', type: 'localeString', description: "Defaults to 'M&M Service'." },
+      { name: 'heroCtaButtonText', title: 'Hero CTA Button Text', type: 'localeString' },
+      { name: 'heroCtaButtonLink', title: 'Hero CTA Button Link', type: 'string' },
+      { name: 'title', title: 'Title', type: 'localeString' },
+      { name: 'slug', title: 'Slug', type: 'slug', options: { source: (doc) => (doc.title && (doc.title.en || doc.title.ar)) || '' } },
+      { name: 'description', title: 'Description', type: 'localeText' },
+      { name: 'content', title: 'Full Content', type: 'localeText' },
+      { name: 'whatWeBuildEyebrow',   title: 'What We Build Eyebrow',   type: 'localeString' },
+      { name: 'whatWeBuildTitle',     title: 'What We Build Title',     type: 'localeString' },
+      { name: 'whyItMattersEyebrow',  title: 'Why It Matters Eyebrow',  type: 'localeString' },
+      { name: 'whyItMattersTitle',    title: 'Why It Matters Title',    type: 'localeString' },
+      { name: 'deliverablesEyebrow',  title: 'Deliverables Eyebrow',    type: 'localeString' },
+      { name: 'deliverablesTitle',    title: 'Deliverables Title',      type: 'localeString' },
+      { name: 'projectsEyebrow',      title: 'Projects Eyebrow',        type: 'localeString' },
+      { name: 'projectsTitle',        title: 'Projects Title',          type: 'localeString' },
+      { name: 'faqsEyebrow',          title: 'FAQs Eyebrow',            type: 'localeString' },
+      { name: 'faqsTitle',            title: 'FAQs Title',              type: 'localeString' },
+      { name: 'finalCtaButtonText',   title: 'Final CTA Button Text',   type: 'localeString' },
+      { name: 'finalCtaButtonLink',   title: 'Final CTA Button Link',   type: 'string' },
       {
         name: 'image',
         title: 'Service Image',
@@ -293,23 +381,23 @@ export const schemaTypes = [
       {
         name: 'whyItMatters',
         title: 'Why It Matters',
-        type: 'text',
+        type: 'localeText',
       },
       {
         name: 'deliverables',
         title: 'Deliverables',
         type: 'array',
-        of: [{ type: 'string' }],
+        of: [{ type: 'localeString' }],
       },
       {
         name: 'ctaTitle',
         title: 'CTA Title',
-        type: 'string',
+        type: 'localeString',
       },
       {
         name: 'ctaText',
         title: 'CTA Text',
-        type: 'text',
+        type: 'localeText',
       },
 // Service Projects
 {
@@ -320,8 +408,8 @@ export const schemaTypes = [
     {
       type: 'object',
       fields: [
-        { name: 'clientName', title: 'Client Name', type: 'string' },
-        { name: 'category', title: 'Category', type: 'string' },
+        { name: 'clientName', title: 'Client Name', type: 'localeString' },
+        { name: 'category', title: 'Category', type: 'localeString' },
         {
           name: 'projectImage',
           title: 'Project Image',
@@ -334,8 +422,8 @@ export const schemaTypes = [
           type: 'image',
           options: { hotspot: true },
         },
-        { name: 'title', title: 'Project Title', type: 'string' },
-        { name: 'description', title: 'Description', type: 'text' },
+        { name: 'title', title: 'Project Title', type: 'localeString' },
+        { name: 'description', title: 'Description', type: 'localeText' },
       ],
     },
   ],
@@ -357,29 +445,25 @@ export const schemaTypes = [
     ],
   },
 
-  // Work Section
+  // Services Index Page (singleton — controls /services landing page)
   {
-    name: 'work',
-    title: 'Work',
+    name: 'servicesPage',
+    title: 'Services Page',
     type: 'document',
     fields: [
-      {
-  name: 'seo',
-  title: 'SEO Settings',
-  type: 'seo',
-},
-      { name: 'title', title: 'Title', type: 'string' },
-      { name: 'slug', title: 'Slug', type: 'slug', options: { source: 'title' } },
-      { name: 'category', title: 'Category', type: 'string' },
-      { name: 'description', title: 'Description', type: 'text' },
-      {
-        name: 'image',
-        title: 'Work Image',
-        type: 'image',
-        options: { hotspot: true },
-      },
+      { name: 'seo', title: 'SEO Settings', type: 'seo' },
+      { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
+      { name: 'title', title: 'Hero Title', type: 'localeString' },
+      { name: 'subtitle', title: 'Hero Subtitle', type: 'localeText' },
+      { name: 'intro', title: 'Intro Paragraph', type: 'localeText' },
+      { name: 'ctaTitle', title: 'CTA Title', type: 'localeString' },
+      { name: 'ctaText', title: 'CTA Text', type: 'localeText' },
+      { name: 'ctaButtonText', title: 'CTA Button Text', type: 'localeString' },
+      { name: 'ctaButtonLink', title: 'CTA Button Link', type: 'string' },
     ],
   },
+
+  // (work schema removed — consolidated into caseStudy in Phase 3-D)
 
 // Case Study Section
 {
@@ -392,21 +476,21 @@ export const schemaTypes = [
       title: 'SEO Settings',
       type: 'seo',
     },
-    { name: 'title', title: 'Title', type: 'string' },
-    { name: 'slug', title: 'Slug', type: 'slug', options: { source: 'title' } },
-    { name: 'client', title: 'Client Name', type: 'string' },
-    { name: 'industry', title: 'Industry', type: 'string' },
-    { name: 'category', title: 'Category', type: 'string' },
-    { name: 'description', title: 'Short Description', type: 'text' },
+    { name: 'title', title: 'Title', type: 'localeString' },
+    { name: 'slug', title: 'Slug', type: 'slug', options: { source: (doc) => (doc.title && (doc.title.en || doc.title.ar)) || '' } },
+    { name: 'client', title: 'Client Name', type: 'localeString' },
+    { name: 'industry', title: 'Industry', type: 'localeString' },
+    { name: 'category', title: 'Category', type: 'localeString' },
+    { name: 'description', title: 'Short Description', type: 'localeText' },
     {
       name: 'image',
       title: 'Case Study Image',
       type: 'image',
       options: { hotspot: true },
     },
-    { name: 'challenge', title: 'Challenge', type: 'text' },
-    { name: 'solution', title: 'Solution', type: 'text' },
-    { name: 'results', title: 'Results', type: 'text' },
+    { name: 'challenge', title: 'Challenge', type: 'localeText' },
+    { name: 'solution', title: 'Solution', type: 'localeText' },
+    { name: 'results', title: 'Results', type: 'localeText' },
   ],
 },
   // Hero Section Block
@@ -415,8 +499,9 @@ export const schemaTypes = [
     title: 'Hero Section',
     type: 'object',
     fields: [
-      { name: 'title', title: 'Title', type: 'string' },
-      { name: 'subtitle', title: 'Subtitle', type: 'text' },
+      { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
+      { name: 'title', title: 'Title', type: 'localeString' },
+      { name: 'subtitle', title: 'Subtitle', type: 'localeText' },
       {
         name: 'image',
         title: 'Image',
@@ -432,8 +517,9 @@ export const schemaTypes = [
     title: 'Text Block',
     type: 'object',
     fields: [
-      { name: 'title', title: 'Title', type: 'string' },
-      { name: 'content', title: 'Content', type: 'text' },
+      { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
+      { name: 'title', title: 'Title', type: 'localeString' },
+      { name: 'content', title: 'Content', type: 'localeText' },
     ],
   },
 
@@ -449,7 +535,7 @@ export const schemaTypes = [
         type: 'image',
         options: { hotspot: true },
       },
-      { name: 'caption', title: 'Caption', type: 'string' },
+      { name: 'caption', title: 'Caption', type: 'localeString' },
     ],
   },
 
@@ -459,11 +545,13 @@ export const schemaTypes = [
     title: 'Features Block',
     type: 'object',
     fields: [
+      { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
+      { name: 'title', title: 'Title', type: 'localeString' },
       {
         name: 'items',
         title: 'Items',
         type: 'array',
-        of: [{ type: 'string' }],
+        of: [{ type: 'localeString' }],
       },
     ],
   },
@@ -474,9 +562,9 @@ export const schemaTypes = [
     title: 'CTA Block',
     type: 'object',
     fields: [
-      { name: 'title', title: 'Title', type: 'string' },
-      { name: 'text', title: 'Text', type: 'text' },
-      { name: 'buttonText', title: 'Button Text', type: 'string' },
+      { name: 'title', title: 'Title', type: 'localeString' },
+      { name: 'text', title: 'Text', type: 'localeText' },
+      { name: 'buttonText', title: 'Button Text', type: 'localeString' },
       { name: 'buttonLink', title: 'Button Link', type: 'string' },
     ],
   },
@@ -487,33 +575,120 @@ export const schemaTypes = [
   type: 'document',
   fields: [
     {
-  name: 'seo',
-  title: 'SEO Settings',
-  type: 'seo',
-},
-    { name: 'title', title: 'Title', type: 'string' },
-    { name: 'slug', title: 'Slug', type: 'slug', options: { source: 'title' } },
-    { name: 'category', title: 'Category', type: 'string' },
-    { name: 'excerpt', title: 'Excerpt', type: 'text' },
+      name: 'seo',
+      title: 'SEO Settings',
+      type: 'seo',
+    },
+    { name: 'title', title: 'Title', type: 'localeString' },
+    { name: 'slug', title: 'Slug', type: 'slug', options: { source: (doc) => (doc.title && (doc.title.en || doc.title.ar)) || '' } },
+    { name: 'category', title: 'Category', type: 'localeString' },
+    { name: 'author', title: 'Author', type: 'localeString' },
+    {
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      of: [{ type: 'localeString' }],
+      options: { layout: 'tags' },
+    },
+    { name: 'excerpt', title: 'Excerpt', type: 'localeText' },
     {
       name: 'image',
       title: 'Featured Image',
       type: 'image',
       options: { hotspot: true },
     },
-    { name: 'content', title: 'Content', type: 'text' },
+    {
+      name: 'content',
+      title: 'Content',
+      type: 'array',
+      description: 'Rich text with headings, lists, links, and inline images.',
+      of: [
+        {
+          type: 'block',
+          styles: [
+            { title: 'Normal', value: 'normal' },
+            { title: 'H2', value: 'h2' },
+            { title: 'H3', value: 'h3' },
+            { title: 'H4', value: 'h4' },
+            { title: 'Quote', value: 'blockquote' },
+          ],
+          lists: [
+            { title: 'Bullet', value: 'bullet' },
+            { title: 'Numbered', value: 'number' },
+          ],
+          marks: {
+            decorators: [
+              { title: 'Strong', value: 'strong' },
+              { title: 'Emphasis', value: 'em' },
+              { title: 'Code', value: 'code' },
+            ],
+            annotations: [
+              {
+                name: 'link',
+                title: 'Link',
+                type: 'object',
+                fields: [
+                  { name: 'href', title: 'URL', type: 'url' },
+                ],
+              },
+            ],
+          },
+        },
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            { name: 'caption', title: 'Caption', type: 'localeString' },
+            { name: 'alt', title: 'Alt text', type: 'localeString' },
+          ],
+        },
+      ],
+    },
     { name: 'publishedAt', title: 'Published Date', type: 'datetime' },
   ],
 },
 
-// Strategy Form Settings
+// Strategy Form (consolidated singleton — controls /get-strategy)
 {
   name: 'strategyForm',
-  title: 'Strategy Form Settings',
+  title: 'Strategy Form',
   type: 'document',
   fields: [
-    { name: 'title', title: 'Form Title', type: 'string' },
-    { name: 'subtitle', title: 'Form Subtitle', type: 'text' },
+    { name: 'seo', title: 'SEO Settings', type: 'seo' },
+    { name: 'eyebrow', title: 'Hero Eyebrow', type: 'localeString' },
+    { name: 'title', title: 'Form Title', type: 'localeString' },
+    { name: 'subtitle', title: 'Form Subtitle', type: 'localeText' },
+
+    {
+      name: 'placeholders',
+      title: 'Form Placeholders',
+      type: 'object',
+      fields: [
+        { name: 'name',    title: 'Name Placeholder',    type: 'localeString' },
+        { name: 'email',   title: 'Email Placeholder',   type: 'string' },
+        { name: 'country', title: 'Country Placeholder', type: 'localeString' },
+        { name: 'phone',   title: 'Phone Placeholder',   type: 'string' },
+        { name: 'company', title: 'Company Placeholder', type: 'localeString' },
+        { name: 'budget',  title: 'Budget Placeholder',  type: 'localeString' },
+        { name: 'message', title: 'Message Placeholder', type: 'localeString' },
+        { name: 'service', title: 'Service Placeholder', type: 'localeString', description: "e.g. 'Select Service'" },
+      ],
+    },
+
+    {
+      name: 'services',
+      title: 'Service Options',
+      type: 'array',
+      of: [{ type: 'localeString' }],
+      description: 'Shown as dropdown choices in the form.',
+    },
+    {
+      name: 'budgetOptions',
+      title: 'Budget Options',
+      type: 'array',
+      of: [{ type: 'localeString' }],
+      description: 'Shown as dropdown choices for the budget field.',
+    },
 
     {
       name: 'countries',
@@ -524,7 +699,7 @@ export const schemaTypes = [
           type: 'object',
           fields: [
             { name: 'flag', title: 'Flag Emoji', type: 'string' },
-            { name: 'countryName', title: 'Country Name', type: 'string' },
+            { name: 'countryName', title: 'Country Name', type: 'localeString' },
             { name: 'dialCode', title: 'Dial Code', type: 'string' },
             { name: 'phoneLength', title: 'Phone Length', type: 'number' },
           ],
@@ -532,8 +707,70 @@ export const schemaTypes = [
       ],
     },
 
-    { name: 'humanQuestion', title: 'Human Check Question', type: 'string' },
-    { name: 'humanAnswer', title: 'Human Check Answer', type: 'string' },
+    { name: 'humanQuestion', title: 'Human Check Question', type: 'localeString' },
+    { name: 'humanAnswer', title: 'Human Check Answer', type: 'localeString' },
+
+    { name: 'submitText', title: 'Submit Button Text', type: 'localeString', initialValue: 'Get Strategy' },
+    { name: 'successMessage', title: 'Success Message', type: 'localeText' },
+    { name: 'errorMessage', title: 'Error Message', type: 'localeText', description: 'Shown when the submission fails.' },
+
+    {
+      name: 'recipientEmail',
+      title: 'Recipient Email',
+      type: 'string',
+      description: 'Where strategy form submissions are emailed. Falls back to STRATEGY_RECIPIENT_EMAIL env var if blank.',
+    },
+
+    // Trust signals (rendered around the form on /get-strategy)
+    { name: 'trustEyebrow', title: 'Trust Eyebrow', type: 'localeString', description: "e.g. 'Trusted by brands across Qatar'" },
+    {
+      name: 'trustLogos',
+      title: 'Trust Logos',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'name', title: 'Brand Name', type: 'localeString' },
+            { name: 'logo', title: 'Logo',       type: 'image', options: { hotspot: true } },
+          ],
+        },
+      ],
+    },
+    { name: 'processEyebrow', title: 'Process Eyebrow', type: 'localeString', description: "e.g. 'What Happens Next'" },
+    { name: 'processTitle',   title: 'Process Title',   type: 'localeString' },
+    {
+      name: 'processSteps',
+      title: 'Process Steps',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'title',       title: 'Step Title',       type: 'localeString' },
+            { name: 'description', title: 'Step Description', type: 'localeText' },
+          ],
+        },
+      ],
+    },
+    { name: 'testimonialsEyebrow', title: 'Testimonials Eyebrow', type: 'localeString' },
+    { name: 'testimonialsTitle',   title: 'Testimonials Title',   type: 'localeString' },
+    {
+      name: 'testimonials',
+      title: 'Testimonials',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'quote',        title: 'Quote',        type: 'localeText' },
+            { name: 'authorName',   title: 'Author Name',  type: 'localeString' },
+            { name: 'authorTitle',  title: 'Author Title', type: 'localeString' },
+            { name: 'authorLogo',   title: 'Author Logo',  type: 'image', options: { hotspot: true } },
+          ],
+        },
+      ],
+    },
   ],
 },
 
@@ -545,19 +782,19 @@ export const schemaTypes = [
     {
       name: 'metaTitle',
       title: 'Meta Title',
-      type: 'string',
+      type: 'localeString',
       description: 'Recommended: 50–60 characters.',
     },
     {
       name: 'metaDescription',
       title: 'Meta Description',
-      type: 'text',
+      type: 'localeText',
       description: 'Recommended: 140–160 characters.',
     },
     {
       name: 'focusKeyword',
       title: 'Focus Keyword',
-      type: 'string',
+      type: 'localeString',
       description: 'Main keyword this page should target.',
     },
     {
@@ -584,12 +821,12 @@ export const schemaTypes = [
     {
       name: 'question',
       title: 'Question',
-      type: 'string',
+      type: 'localeString',
     },
     {
       name: 'answer',
       title: 'Answer',
-      type: 'text',
+      type: 'localeText',
     },
     {
       name: 'category',
@@ -639,15 +876,54 @@ export const schemaTypes = [
       title: 'SEO Settings',
       type: 'seo',
     },
+    { name: 'eyebrow', title: 'Hero Eyebrow', type: 'localeString' },
     {
       name: 'title',
       title: 'Page Title',
-      type: 'string',
+      type: 'localeString',
     },
     {
       name: 'subtitle',
       title: 'Page Subtitle',
-      type: 'text',
+      type: 'localeText',
+    },
+    { name: 'contactDetailsTitle', title: 'Contact Details Title', type: 'localeString' },
+    {
+      name: 'detailLabels',
+      title: 'Contact Detail Labels',
+      type: 'object',
+      fields: [
+        { name: 'workingHours', title: 'Working Hours Label', type: 'string' },
+        { name: 'phone',        title: 'Phone Label',        type: 'string' },
+        { name: 'email',        title: 'Email Label',        type: 'string' },
+        { name: 'location',     title: 'Location Label',     type: 'localeString' },
+      ],
+    },
+    { name: 'openLocationButton', title: 'Open Location Button Text', type: 'localeString' },
+    { name: 'formEyebrow', title: 'Form Eyebrow', type: 'localeString' },
+    {
+      name: 'formPlaceholders',
+      title: 'Form Placeholders',
+      type: 'object',
+      fields: [
+        { name: 'name',    title: 'Name Placeholder',    type: 'localeString' },
+        { name: 'email',   title: 'Email Placeholder',   type: 'string' },
+        { name: 'phone',   title: 'Phone Placeholder',   type: 'string' },
+        { name: 'company', title: 'Company Placeholder', type: 'localeString' },
+        { name: 'service', title: 'Service Placeholder', type: 'localeString' },
+        { name: 'message', title: 'Message Placeholder', type: 'localeString' },
+      ],
+    },
+    { name: 'formSubmitText',    title: 'Form Submit Text',    type: 'localeString' },
+    { name: 'formSuccessTitle',  title: 'Form Success Title',  type: 'localeString' },
+    { name: 'formSuccessText',   title: 'Form Success Text',   type: 'localeText' },
+    { name: 'formErrorMessage',  title: 'Form Error Message',  type: 'localeText' },
+    { name: 'formPrivacyNote',   title: 'Form Privacy Note',   type: 'localeString' },
+    {
+      name: 'recipientEmail',
+      title: 'Form Recipient Email',
+      type: 'string',
+      description: 'Where contact form submissions are emailed. Falls back to CONTACT_RECIPIENT_EMAIL env var if blank.',
     },
     {
       name: 'phone',
@@ -672,18 +948,18 @@ export const schemaTypes = [
       {
   name: 'formTitle',
   title: 'Form Title',
-  type: 'string',
+  type: 'localeString',
 },
 {
   name: 'formSubtitle',
   title: 'Form Subtitle',
-  type: 'text',
+  type: 'localeText',
 },
 {
   name: 'servicesOptions',
   title: 'Service Options',
   type: 'array',
-  of: [{ type: 'string' }],
+  of: [{ type: 'localeString' }],
 },
 {
   name: 'mapEmbed',
@@ -695,16 +971,21 @@ export const schemaTypes = [
   title: 'Google Maps Page URL',
   type: 'url',
 },
+    { name: 'ctaTagline', title: 'CTA Tagline', type: 'localeString', description: 'Bold line on the left of the premium CTA.' },
+    { name: 'ctaSubTagline', title: 'CTA Sub-Tagline', type: 'localeString' },
     {
       name: 'ctaTitle',
       title: 'CTA Title',
-      type: 'string',
+      type: 'localeString',
     },
     {
       name: 'ctaText',
       title: 'CTA Text',
-      type: 'text',
+      type: 'localeText',
     },
+    { name: 'ctaButtonText', title: 'CTA Button Text', type: 'localeString' },
+    { name: 'ctaButtonLink', title: 'CTA Button Link', type: 'string' },
+    { name: 'ctaButtonNote', title: 'CTA Button Note', type: 'localeString', description: 'Small text under the CTA button.' },
   ],
 },
 
@@ -716,26 +997,122 @@ export const schemaTypes = [
   fields: [
     { name: 'seo', title: 'SEO', type: 'seo' },
     {
-  name: 'heroImage',
-  title: 'Hero Image',
-  type: 'image',
-  options: { hotspot: true },
-},  
-    { name: 'title', title: 'Hero Title', type: 'string' },
-    { name: 'subtitle', title: 'Hero Subtitle', type: 'text' },
-    { name: 'positioning', title: 'Positioning Statement', type: 'text' },
-    { name: 'missionTitle', title: 'Mission Title', type: 'string' },
-    { name: 'missionText', title: 'Mission Text', type: 'text' },
-    { name: 'methodologyTitle', title: 'Methodology Title', type: 'string' },
-    { name: 'methodologyText', title: 'Methodology Text', type: 'text' },
+      name: 'heroImage',
+      title: 'Hero Image',
+      type: 'image',
+      options: { hotspot: true },
+    },
+    { name: 'eyebrow', title: 'Hero Eyebrow', type: 'localeString' },
+    { name: 'title', title: 'Hero Title', type: 'localeString' },
+    { name: 'subtitle', title: 'Hero Subtitle', type: 'localeText' },
+    { name: 'heroImageAlt', title: 'Hero Image Alt Text', type: 'localeString' },
+    { name: 'positioningTitle', title: 'Positioning Title', type: 'localeString' },
+    { name: 'positioning', title: 'Positioning Statement', type: 'localeText' },
+    { name: 'missionEyebrow', title: 'Mission Eyebrow', type: 'localeString' },
+    { name: 'missionTitle', title: 'Mission Title', type: 'localeString' },
+    { name: 'missionText', title: 'Mission Text', type: 'localeText' },
+    { name: 'methodologyEyebrow', title: 'Methodology Eyebrow', type: 'localeString' },
+    { name: 'methodologyTitle', title: 'Methodology Title', type: 'localeString' },
+    { name: 'methodologyText', title: 'Methodology Text', type: 'localeText' },
+    { name: 'principlesEyebrow', title: 'Principles Eyebrow', type: 'localeString' },
+    { name: 'principlesTitle', title: 'Principles Title', type: 'localeString' },
     {
       name: 'principles',
       title: 'Principles',
       type: 'array',
-      of: [{ type: 'string' }],
+      of: [{ type: 'localeString' }],
     },
-    { name: 'ctaTitle', title: 'CTA Title', type: 'string' },
-    { name: 'ctaText', title: 'CTA Text', type: 'text' },
+    { name: 'ctaTitle', title: 'CTA Title', type: 'localeString' },
+    { name: 'ctaText', title: 'CTA Text', type: 'localeText' },
+    { name: 'ctaButtonText', title: 'CTA Button Text', type: 'localeString' },
+    { name: 'ctaButtonLink', title: 'CTA Button Link', type: 'string' },
+  ],
+},
+
+// Blog Index Page (singleton — controls /blog landing page)
+{
+  name: 'blogPage',
+  title: 'Blog Page',
+  type: 'document',
+  fields: [
+    { name: 'seo', title: 'SEO Settings', type: 'seo' },
+    { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
+    { name: 'title', title: 'Hero Title', type: 'localeString' },
+    { name: 'subtitle', title: 'Hero Subtitle', type: 'localeText' },
+  ],
+},
+
+// FAQs Page (singleton — controls /faqs landing page)
+{
+  name: 'faqsPage',
+  title: 'FAQs Page',
+  type: 'document',
+  fields: [
+    { name: 'seo', title: 'SEO Settings', type: 'seo' },
+    { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
+    { name: 'title', title: 'Hero Title', type: 'localeString' },
+    { name: 'subtitle', title: 'Hero Subtitle', type: 'localeText' },
+    {
+      name: 'categoryLabels',
+      title: 'Category Section Labels',
+      type: 'object',
+      description: 'Display names shown above each FAQ category group. Leave blank to use the default.',
+      fields: [
+        { name: 'general',            title: 'General',             type: 'localeString' },
+        { name: 'websiteDevelopment', title: 'Website Development', type: 'localeString' },
+        { name: 'seo',                title: 'SEO',                 type: 'localeString' },
+        { name: 'socialMedia',        title: 'Social Media',        type: 'localeString' },
+        { name: 'branding',           title: 'Branding',            type: 'localeString' },
+        { name: 'bulkSms',            title: 'Bulk SMS',            type: 'localeString' },
+        { name: 'paidAds',            title: 'Paid Ads',            type: 'localeString' },
+        { name: 'aiLlmoGeo',          title: 'AI / LLMO / GEO',     type: 'localeString' },
+      ],
+    },
+  ],
+},
+
+// (workPage singleton removed — /work redirects to /case-studies in Phase 3-D)
+
+// Case Studies Index Page (singleton — controls /case-studies landing page)
+{
+  name: 'caseStudiesPage',
+  title: 'Case Studies Page',
+  type: 'document',
+  fields: [
+    { name: 'seo', title: 'SEO Settings', type: 'seo' },
+    { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
+    { name: 'title', title: 'Hero Title', type: 'localeString' },
+    { name: 'subtitle', title: 'Hero Subtitle', type: 'localeText' },
+    { name: 'cardCtaText', title: 'Card CTA Text', type: 'localeString', description: "e.g. 'View Case Study →'" },
+  ],
+},
+
+// SEO Audit Page (singleton — controls /seo-audit landing page)
+{
+  name: 'seoAuditPage',
+  title: 'SEO Audit Page',
+  type: 'document',
+  fields: [
+    { name: 'seo', title: 'SEO Settings', type: 'seo' },
+    { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
+    { name: 'title', title: 'Hero Title', type: 'localeString' },
+    { name: 'subtitle', title: 'Hero Subtitle', type: 'localeText' },
+    { name: 'widgetTitle', title: 'Widget Title', type: 'localeString', description: 'Shown above the SEOptimer audit form.' },
+    { name: 'seoptimerUid', title: 'SEOptimer UID', type: 'string', description: 'Your SEOptimer widget UID.' },
+    { name: 'seoptimerCsrfToken', title: 'SEOptimer CSRF Token', type: 'string', description: 'Rotated by SEOptimer — paste fresh value if the form breaks.' },
+    {
+      name: 'placeholders',
+      title: 'Form Placeholders',
+      type: 'object',
+      fields: [
+        { name: 'url',       title: 'URL Placeholder',       type: 'localeString' },
+        { name: 'firstName', title: 'First Name Placeholder', type: 'localeString' },
+        { name: 'email',     title: 'Email Placeholder',     type: 'localeString' },
+        { name: 'phone',     title: 'Phone Placeholder',     type: 'localeString' },
+        { name: 'submit',    title: 'Submit Button Label',   type: 'localeString' },
+      ],
+    },
+    { name: 'successMessage', title: 'Success Message', type: 'localeText' },
   ],
 },
 ]
