@@ -10,6 +10,12 @@ export const schemaTypes = [
     name: 'navigation',
     title: 'Navigation',
     type: 'document',
+    preview: {
+      select: { brand: 'brandName' },
+      prepare({ brand }) {
+        return { title: 'Navigation', subtitle: brand || '' }
+      },
+    },
     fields: [
       {
         name: 'brandName',
@@ -161,6 +167,12 @@ export const schemaTypes = [
     name: 'homepage',
     title: 'Homepage',
     type: 'document',
+    preview: {
+      select: { en: 'title.en', ar: 'title.ar' },
+      prepare({ en, ar }) {
+        return { title: en || ar || 'Homepage', subtitle: 'mnmagency.com' }
+      },
+    },
     fields: [
          {
       name: 'seo',
@@ -456,6 +468,12 @@ export const schemaTypes = [
     name: 'servicesPage',
     title: 'Services Page',
     type: 'document',
+    preview: {
+      select: { en: 'title.en', ar: 'title.ar' },
+      prepare({ en, ar }) {
+        return { title: en || ar || 'Services Page', subtitle: '/services' }
+      },
+    },
     fields: [
       { name: 'seo', title: 'SEO Settings', type: 'seo' },
       { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
@@ -672,6 +690,12 @@ export const schemaTypes = [
   name: 'strategyForm',
   title: 'Strategy Form',
   type: 'document',
+  preview: {
+    select: { en: 'title.en', ar: 'title.ar' },
+    prepare({ en, ar }) {
+      return { title: en || ar || 'Strategy Form', subtitle: '/get-strategy' }
+    },
+  },
   fields: [
     { name: 'seo', title: 'SEO Settings', type: 'seo' },
     { name: 'eyebrow', title: 'Hero Eyebrow', type: 'localeString' },
@@ -895,6 +919,12 @@ export const schemaTypes = [
   name: 'contactPage',
   title: 'Contact Page',
   type: 'document',
+  preview: {
+    select: { en: 'title.en', ar: 'title.ar' },
+    prepare({ en, ar }) {
+      return { title: en || ar || 'Contact Page', subtitle: '/contact' }
+    },
+  },
   fields: [
     {
       name: 'seo',
@@ -1019,6 +1049,12 @@ export const schemaTypes = [
   name: 'aboutPage',
   title: 'About Page',
   type: 'document',
+  preview: {
+    select: { en: 'title.en', ar: 'title.ar' },
+    prepare({ en, ar }) {
+      return { title: en || ar || 'About Page', subtitle: '/about' }
+    },
+  },
   fields: [
     { name: 'seo', title: 'SEO', type: 'seo' },
     {
@@ -1059,6 +1095,12 @@ export const schemaTypes = [
   name: 'blogPage',
   title: 'Blog Page',
   type: 'document',
+  preview: {
+    select: { en: 'title.en', ar: 'title.ar' },
+    prepare({ en, ar }) {
+      return { title: en || ar || 'Blog Page', subtitle: '/blog' }
+    },
+  },
   fields: [
     { name: 'seo', title: 'SEO Settings', type: 'seo' },
     { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
@@ -1072,6 +1114,12 @@ export const schemaTypes = [
   name: 'faqsPage',
   title: 'FAQs Page',
   type: 'document',
+  preview: {
+    select: { en: 'title.en', ar: 'title.ar' },
+    prepare({ en, ar }) {
+      return { title: en || ar || 'FAQs Page', subtitle: '/faqs' }
+    },
+  },
   fields: [
     { name: 'seo', title: 'SEO Settings', type: 'seo' },
     { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
@@ -1103,6 +1151,12 @@ export const schemaTypes = [
   name: 'caseStudiesPage',
   title: 'Case Studies Page',
   type: 'document',
+  preview: {
+    select: { en: 'title.en', ar: 'title.ar' },
+    prepare({ en, ar }) {
+      return { title: en || ar || 'Case Studies Page', subtitle: '/case-studies' }
+    },
+  },
   fields: [
     { name: 'seo', title: 'SEO Settings', type: 'seo' },
     { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
@@ -1117,6 +1171,12 @@ export const schemaTypes = [
   name: 'seoAuditPage',
   title: 'SEO Audit Page',
   type: 'document',
+  preview: {
+    select: { en: 'title.en', ar: 'title.ar' },
+    prepare({ en, ar }) {
+      return { title: en || ar || 'SEO Audit Page', subtitle: '/seo-audit' }
+    },
+  },
   fields: [
     { name: 'seo', title: 'SEO Settings', type: 'seo' },
     { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
