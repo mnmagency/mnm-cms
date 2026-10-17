@@ -25,9 +25,17 @@ export const schemaTypes = [
       },
       {
         name: 'logo',
-        title: 'Logo',
+        title: 'Logo (for dark backgrounds — header)',
         type: 'image',
         options: { hotspot: true },
+        description: 'Primary logo. Shown in the navy header. Should be the light/white variant.',
+      },
+      {
+        name: 'logoDark',
+        title: 'Logo — dark variant (for white backgrounds — footer)',
+        type: 'image',
+        options: { hotspot: true },
+        description: 'Dark-ink version of the logo. Shown in the white footer. If left empty, the primary logo will be used as fallback.',
       },
       // Promo Banner (top header strip — replaces the hardcoded "Audit Your Website's SEO Now!" link)
       {
@@ -159,6 +167,57 @@ export const schemaTypes = [
     { name: 'youtube', title: 'YouTube URL', type: 'url' },
   ],
 },
+
+// WhatsApp Popup — routes the floating WhatsApp button to different numbers +
+// pre-filled messages depending on which page the visitor is on (e.g. Bulk SMS
+// leads go to the SMS specialist, SEO leads go to the SEO team, etc.).
+{
+  name: 'whatsapp',
+  title: 'WhatsApp Popup',
+  type: 'object',
+  description: 'Configure the floating WhatsApp CTA. Add routes to send visitors on specific pages to different numbers / messages.',
+  fields: [
+    { name: 'enabled', title: 'Enabled?', type: 'boolean', initialValue: true },
+    {
+      name: 'defaultNumber',
+      title: 'Default WhatsApp Number',
+      type: 'string',
+      description: 'Fallback number when no route matches. Include country code, e.g. +97455376372',
+    },
+    {
+      name: 'defaultMessage',
+      title: 'Default Pre-filled Message',
+      type: 'localeString',
+      description: 'Shown when no route matches the current page.',
+    },
+    {
+      name: 'routes',
+      title: 'Page-specific Routes',
+      type: 'array',
+      description: 'When a visitor is on one of the paths below, they get sent to the number + message defined here instead of the defaults.',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'label', title: 'Route Label (internal)', type: 'string', description: 'For your reference only, e.g. "Social Media & Bulk SMS"' },
+            {
+              name: 'matchPaths',
+              title: 'Match Paths',
+              type: 'array',
+              of: [{ type: 'string' }],
+              description: 'Route matches if the current URL starts with any of these paths.',
+            },
+            { name: 'number',  title: 'WhatsApp Number', type: 'string' },
+            { name: 'message', title: 'Pre-filled Message', type: 'localeString' },
+          ],
+          preview: {
+            select: { title: 'label', subtitle: 'number' },
+          },
+        },
+      ],
+    },
+  ],
+},
     ],
   },
 
@@ -173,31 +232,39 @@ export const schemaTypes = [
         return { title: en || ar || 'Homepage', subtitle: 'mnmagency.com' }
       },
     },
+    // Tabs at the top of the document — click one to jump to that section.
+    // Order matches the order sections appear on the live page.
+    groups: [
+      { name: 'seo',        title: '🔍 SEO',              default: true },
+      { name: 'hero',       title: '🎯 Hero' },
+      { name: 'clients',    title: '🤝 Clients & Partners' },
+      { name: 'system',     title: '🧭 Growth System' },
+      { name: 'services',   title: '🎨 Services Section' },
+      { name: 'stats',      title: '📊 Stats' },
+      { name: 'about',      title: '📖 About Section' },
+      { name: 'work',       title: '💼 Work / Case Studies' },
+      { name: 'blog',       title: '📝 Blog Section' },
+      { name: 'finalCta',   title: '🚀 Final CTA' },
+      { name: 'legacy',     title: '📦 Legacy (hidden)' },
+    ],
     fields: [
-         {
-      name: 'seo',
-      title: 'SEO Settings',
-      type: 'seo',
-    },
-      { name: 'heroEyebrow', title: 'Hero Eyebrow', type: 'localeString' },
-      { name: 'title', title: 'Hero Title', type: 'localeString' },
-      { name: 'subtitle', title: 'Hero Subtitle', type: 'localeText' },
-      { name: 'heroImageAlt', title: 'Hero Image Alt Text', type: 'localeString' },
-      { name: 'buttonText', title: 'Primary Button Text', type: 'localeString' },
-{ name: 'buttonLink', title: 'Primary Button Link', type: 'string' },
+      // ─── 🔍 SEO ─────────────────────────────────────────────────────
+      { name: 'seo', title: 'SEO Settings', type: 'seo', group: 'seo' },
 
-{ name: 'secondaryButtonText', title: 'Secondary Button Text', type: 'localeString' },
-{ name: 'secondaryButtonLink', title: 'Secondary Button Link', type: 'string' },
-      {
-        name: 'logo',
-        title: 'Logo',
-        type: 'image',
-        options: { hotspot: true },
-      },
+      // ─── 🎯 HERO ────────────────────────────────────────────────────
+      { name: 'heroEyebrow',       title: 'Eyebrow (small text above title)', type: 'localeString', group: 'hero' },
+      { name: 'title',             title: 'Hero Title',                       type: 'localeString', group: 'hero' },
+      { name: 'subtitle',          title: 'Hero Subtitle',                    type: 'localeText',   group: 'hero' },
+      { name: 'buttonText',        title: 'Primary Button Text',              type: 'localeString', group: 'hero' },
+      { name: 'buttonLink',        title: 'Primary Button Link',              type: 'string',       group: 'hero' },
+      { name: 'secondaryButtonText', title: 'Secondary Button Text',          type: 'localeString', group: 'hero' },
+      { name: 'secondaryButtonLink', title: 'Secondary Button Link',          type: 'string',       group: 'hero' },
       {
         name: 'heroMediaType',
         title: 'Hero Media Type',
         type: 'string',
+        group: 'hero',
+        description: 'Choose Image or Video for the D-shape visual next to the hero text.',
         options: {
           list: [
             { title: 'Image', value: 'image' },
@@ -206,151 +273,127 @@ export const schemaTypes = [
           layout: 'radio',
         },
       },
+      { name: 'heroImage',         title: 'Hero Image',             type: 'image', group: 'hero', options: { hotspot: true } },
+      { name: 'heroImageAlt',      title: 'Hero Image Alt Text',    type: 'localeString', group: 'hero', description: 'For accessibility and SEO.' },
+      { name: 'heroVideoUrl',      title: 'Hero Video URL',         type: 'url', group: 'hero', description: 'Direct URL to an .mp4 file. Used when Hero Media Type = Video.' },
+
+      // ─── 🤝 CLIENTS & PARTNERS ──────────────────────────────────────
+      { name: 'clientsBannerTitle', title: 'Clients Banner Title', type: 'localeString', group: 'clients', description: "e.g. 'Trusted by leading brands across Qatar'" },
       {
-        name: 'heroImage',
-        title: 'Hero Image',
-        type: 'image',
-        options: { hotspot: true },
-      },
-      {
-        name: 'heroVideoUrl',
-        title: 'Hero Video URL',
-        type: 'url',
-      },
-      {
-        name: 'proofItems',
-        title: 'Proof Numbers',
+        name: 'clientLogos',
+        title: 'Client Logos (scrolling marquee)',
         type: 'array',
+        group: 'clients',
         of: [
           {
             type: 'object',
             fields: [
-              { name: 'number', title: 'Number', type: 'string' },
-              { name: 'label', title: 'Label', type: 'localeString' },
+              { name: 'name', title: 'Client Name', type: 'localeString' },
+              { name: 'logo', title: 'Client Logo', type: 'image', options: { hotspot: true } },
             ],
           },
         ],
       },
       {
-        name: 'growthSteps',
-        title: 'Growth System Steps',
+        name: 'aboutLogos',
+        title: 'Certified Partners (Meta, Google, etc.)',
         type: 'array',
+        group: 'clients',
+        of: [
+          {
+            type: 'object',
+            fields: [
+              { name: 'name', title: 'Name', type: 'localeString' },
+              { name: 'logo', title: 'Logo', type: 'image', options: { hotspot: true } },
+            ],
+          },
+        ],
+      },
+
+      // ─── 🧭 GROWTH SYSTEM ───────────────────────────────────────────
+      { name: 'systemEyebrow', title: 'Eyebrow',        type: 'localeString', group: 'system', description: "e.g. 'How we work'" },
+      { name: 'systemTitle',   title: 'Section Title',  type: 'localeString', group: 'system' },
+      {
+        name: 'growthSteps',
+        title: 'Growth Steps (Build / Attract / Convert / Scale)',
+        type: 'array',
+        group: 'system',
         of: [
           {
             type: 'object',
             fields: [
               { name: 'title', title: 'Step Title', type: 'localeString' },
-              { name: 'text', title: 'Step Text', type: 'localeText' },
+              { name: 'text',  title: 'Step Text',  type: 'localeText' },
             ],
           },
         ],
       },
-           
-        // About Journey Section
-        
-        {
-  name: 'aboutLogos',
-  title: 'About Partner Logos',
-  type: 'array',
-  of: [
-    {
-      type: 'object',
-      fields: [
-        { name: 'name', title: 'Name', type: 'localeString' },
-        {
-          name: 'logo',
-          title: 'Logo',
-          type: 'image',
-          options: { hotspot: true },
-        },
-      ],
-    },
-  ],
-},
-{
-  name: 'aboutEyebrow',
-  title: 'About Eyebrow',
-  type: 'localeString',
-},
-{
-  name: 'aboutTitle',
-  title: 'About Title',
-  type: 'localeString',
-},
-{
-  name: 'aboutText',
-  title: 'About Text',
-  type: 'localeText',
-},
-{
-  name: 'aboutButtonText',
-  title: 'About Button Text',
-  type: 'localeString',
-},
-{
-  name: 'aboutButtonLink',
-  title: 'About Button Link',
-  type: 'string',
-},
-{
-  name: 'aboutImage',
-  title: 'About Image',
-  type: 'image',
-  options: { hotspot: true },
-},
-{
-  name: 'aboutPattern',
-  title: 'About Background Pattern',
-  type: 'image',
-  options: { hotspot: true },
-},
-      { name: 'missionTitle', title: 'Mission Title', type: 'localeString' },
-      { name: 'missionText', title: 'Mission Text', type: 'localeText' },
-      { name: 'finalCtaTitle', title: 'Final CTA Title', type: 'localeString' },
-      { name: 'finalCtaText', title: 'Final CTA Text', type: 'localeText' },
 
-        // Section labels (CMS-driven so editors can change every eyebrow / headline)
-        { name: 'clientsBannerTitle',    title: 'Clients Banner Title',     type: 'localeString' },
-        { name: 'systemEyebrow',         title: 'Growth System Eyebrow',    type: 'localeString' },
-        { name: 'systemTitle',           title: 'Growth System Title',      type: 'localeString' },
-        { name: 'servicesEyebrow',       title: 'Services Section Eyebrow', type: 'localeString' },
-        { name: 'servicesTitle',         title: 'Services Section Title',   type: 'localeString' },
-        { name: 'caseStudiesEyebrow',    title: 'Case Studies Eyebrow',     type: 'localeString' },
-        { name: 'caseStudiesTitle',      title: 'Case Studies Title',       type: 'localeString' },
-        { name: 'caseStudiesLinkText',   title: 'Case Studies Link Text',   type: 'localeString', description: "e.g. 'View all case studies →'" },
-        { name: 'caseStudyCardCta',      title: 'Case Study Card CTA',      type: 'localeString', description: "e.g. 'View Case Study →'" },
-        { name: 'missionEyebrow',        title: 'Mission Eyebrow',          type: 'localeString' },
-        { name: 'workEyebrow',           title: 'Work Section Eyebrow',     type: 'localeString' },
-        { name: 'workTitle',             title: 'Work Section Title',       type: 'localeString' },
-        { name: 'blogPill',              title: 'Blog Section Pill',        type: 'localeString', description: "e.g. 'Daily News'" },
-        { name: 'blogTitle',             title: 'Blog Section Title',       type: 'localeString' },
-        { name: 'blogDescription',       title: 'Blog Section Description', type: 'localeText' },
-        { name: 'blogLinkText',          title: 'Blog Section Link Text',   type: 'localeString', description: "e.g. 'Read more from the blog ›'" },
-        { name: 'proofEyebrow',          title: 'Proof Strip Eyebrow',      type: 'localeString', description: 'Shown above the hero proof items fallback.' },
-        { name: 'finalCtaButtonText',    title: 'Final CTA Button Text',    type: 'localeString' },
-        { name: 'finalCtaButtonLink',    title: 'Final CTA Button Link',    type: 'string' },
+      // ─── 🎨 SERVICES SECTION ────────────────────────────────────────
+      { name: 'servicesEyebrow', title: 'Eyebrow',       type: 'localeString', group: 'services', description: "e.g. 'Our Marketing Services in Qatar'" },
+      { name: 'servicesTitle',   title: 'Section Title', type: 'localeString', group: 'services' },
 
-        // Client Logo Banner
-{
-  name: 'clientLogos',
-  title: 'Client Logos Banner',
-  type: 'array',
-  of: [
-    {
-      type: 'object',
-      fields: [
-        { name: 'name', title: 'Client Name', type: 'localeString' },
-        {
-          name: 'logo',
-          title: 'Client Logo',
-          type: 'image',
-          options: { hotspot: true },
-        },
-      ],
-    },
-  ],
-},
-      { name: 'footerText', title: 'Footer Text', type: 'localeString' },
+      // ─── 📊 STATS ───────────────────────────────────────────────────
+      {
+        name: 'proofItems',
+        title: 'Stats Numbers (600+, 1000 Students, etc.)',
+        type: 'array',
+        group: 'stats',
+        of: [
+          {
+            type: 'object',
+            fields: [
+              { name: 'number', title: 'Number (e.g. "600+" or "24K → 1M QAR")', type: 'string' },
+              { name: 'label',  title: 'Label (below the number)',                type: 'localeString' },
+            ],
+          },
+        ],
+      },
+
+      // ─── 📖 ABOUT SECTION ───────────────────────────────────────────
+      { name: 'aboutEyebrow',    title: 'Eyebrow',       type: 'localeString', group: 'about' },
+      { name: 'aboutTitle',      title: 'Section Title', type: 'localeString', group: 'about' },
+      { name: 'aboutText',       title: 'About Text',    type: 'localeText',   group: 'about' },
+      { name: 'aboutButtonText', title: 'Button Text',   type: 'localeString', group: 'about' },
+      { name: 'aboutButtonLink', title: 'Button Link',   type: 'string',       group: 'about' },
+      { name: 'aboutImage',      title: 'About Image',   type: 'image',        group: 'about', options: { hotspot: true } },
+
+      // ─── 💼 WORK / CASE STUDIES ─────────────────────────────────────
+      { name: 'caseStudiesEyebrow',  title: 'Eyebrow',           type: 'localeString', group: 'work', description: "e.g. 'Our Work in Qatar'" },
+      { name: 'caseStudiesTitle',    title: 'Section Title',     type: 'localeString', group: 'work' },
+      { name: 'caseStudiesLinkText', title: 'Link Text',         type: 'localeString', group: 'work', description: "e.g. 'View all case studies →'" },
+      { name: 'caseStudyCardCta',    title: 'Card CTA Text',     type: 'localeString', group: 'work', description: "e.g. 'View Case Study →'" },
+
+      // ─── 📝 BLOG SECTION ────────────────────────────────────────────
+      { name: 'blogPill',        title: 'Pill / Label',      type: 'localeString', group: 'blog', description: "e.g. 'Marketing Insights'" },
+      { name: 'blogTitle',       title: 'Section Title',     type: 'localeString', group: 'blog' },
+      { name: 'blogDescription', title: 'Section Description', type: 'localeText',   group: 'blog' },
+      { name: 'blogLinkText',    title: 'Link Text',         type: 'localeString', group: 'blog', description: "e.g. 'Read all insights →'" },
+
+      // ─── 🚀 FINAL CTA ───────────────────────────────────────────────
+      { name: 'finalCtaTitle',      title: 'CTA Title',        type: 'localeString', group: 'finalCta' },
+      { name: 'finalCtaText',       title: 'CTA Text',         type: 'localeText',   group: 'finalCta' },
+      { name: 'finalCtaButtonText', title: 'CTA Button Text',  type: 'localeString', group: 'finalCta' },
+      { name: 'finalCtaButtonLink', title: 'CTA Button Link',  type: 'string',       group: 'finalCta' },
+      {
+        name: 'finalCtaImage',
+        title: 'CTA Image',
+        type: 'image',
+        group: 'finalCta',
+        description: 'Portrait image on the right of the Final CTA section. Falls back to Hero Image if empty.',
+        options: { hotspot: true },
+      },
+
+      // ─── 📦 LEGACY (hidden fields — data preserved but not displayed) ─
+      { name: 'logo',           title: 'Logo (legacy, use Navigation instead)', type: 'image',        group: 'legacy', options: { hotspot: true } },
+      { name: 'proofEyebrow',   title: 'Proof Strip Eyebrow (legacy)',           type: 'localeString', group: 'legacy' },
+      { name: 'aboutPattern',   title: 'About Background Pattern (legacy)',      type: 'image',        group: 'legacy', options: { hotspot: true } },
+      { name: 'missionEyebrow', title: 'Mission Eyebrow (legacy)',               type: 'localeString', group: 'legacy' },
+      { name: 'missionTitle',   title: 'Mission Title (legacy)',                 type: 'localeString', group: 'legacy' },
+      { name: 'missionText',    title: 'Mission Text (legacy)',                  type: 'localeText',   group: 'legacy' },
+      { name: 'workEyebrow',    title: 'Work Eyebrow (legacy)',                  type: 'localeString', group: 'legacy' },
+      { name: 'workTitle',      title: 'Work Title (legacy)',                    type: 'localeString', group: 'legacy' },
+      { name: 'footerText',     title: 'Footer Text (legacy, use Navigation)',   type: 'localeString', group: 'legacy' },
     ],
   },
 
@@ -388,6 +431,13 @@ export const schemaTypes = [
       { name: 'projectsTitle',        title: 'Projects Title',          type: 'localeString' },
       { name: 'faqsEyebrow',          title: 'FAQs Eyebrow',            type: 'localeString' },
       { name: 'faqsTitle',            title: 'FAQs Title',              type: 'localeString' },
+
+      // In-page strategy-form section copy (eyebrow / title / subtitle / button)
+      { name: 'formEyebrow',          title: 'Form Section Eyebrow',    type: 'localeString' },
+      { name: 'formTitle',            title: 'Form Section Title',      type: 'localeString' },
+      { name: 'formSubtitle',         title: 'Form Section Subtitle',   type: 'localeText' },
+      { name: 'formSubmitText',       title: 'Form Submit Button Text', type: 'localeString' },
+
       { name: 'finalCtaButtonText',   title: 'Final CTA Button Text',   type: 'localeString' },
       { name: 'finalCtaButtonLink',   title: 'Final CTA Button Link',   type: 'string' },
       {
@@ -442,6 +492,68 @@ export const schemaTypes = [
         },
         { name: 'title', title: 'Project Title', type: 'localeString' },
         { name: 'description', title: 'Description', type: 'localeText' },
+      ],
+    },
+  ],
+},
+
+// Video samples (reel) — primarily used by the Videography service, but
+// available on any service that wants to embed videos. Supports YouTube,
+// Vimeo, and direct video files (Sanity-uploaded or external MP4 URLs).
+{ name: 'videoSamplesEyebrow', title: 'Video Samples Eyebrow', type: 'localeString', description: "e.g. 'Selected Reel'" },
+{ name: 'videoSamplesTitle',   title: 'Video Samples Title',   type: 'localeString', description: 'Headline shown above the video grid.' },
+{ name: 'videoSamplesSubtitle', title: 'Video Samples Subtitle', type: 'localeText', description: 'Optional intro paragraph above the grid.' },
+{
+  name: 'videoSamples',
+  title: 'Video Samples',
+  type: 'array',
+  description: 'Embed YouTube, Vimeo, or direct video URLs to showcase work. Order = display order.',
+  of: [
+    {
+      type: 'object',
+      preview: {
+        select: { en: 'title.en', ar: 'title.ar', media: 'thumbnail' },
+        prepare: ({ en, ar, media }) => ({ title: en || ar || 'Video sample', media }),
+      },
+      fields: [
+        { name: 'title', title: 'Title', type: 'localeString' },
+        { name: 'description', title: 'Short Description', type: 'localeText', description: 'Shown under the title (optional).' },
+        {
+          name: 'videoUrl',
+          title: 'Video URL',
+          type: 'url',
+          description: 'Paste a YouTube link (watch, youtu.be, or Shorts), a Vimeo link, or a direct .mp4/.webm URL.',
+          validation: (Rule) => Rule.uri({ scheme: ['http', 'https'] }),
+        },
+        {
+          name: 'videoFile',
+          title: 'Video File (optional)',
+          type: 'file',
+          description: 'Upload directly to Sanity instead of using a URL. Use sparingly — large files are expensive.',
+          options: { accept: 'video/mp4,video/webm,video/quicktime' },
+        },
+        {
+          name: 'thumbnail',
+          title: 'Thumbnail / Poster',
+          type: 'image',
+          options: { hotspot: true },
+          description: 'Used as the still image before the video plays. Recommended.',
+        },
+        {
+          name: 'aspectRatio',
+          title: 'Aspect Ratio',
+          type: 'string',
+          description: 'Affects how the card is sized in the grid.',
+          options: {
+            list: [
+              { title: 'Landscape · 16:9 (default)', value: '16-9' },
+              { title: 'Portrait · 9:16 (Reels / Shorts / TikTok)', value: '9-16' },
+              { title: 'Square · 1:1', value: '1-1' },
+            ],
+            layout: 'radio',
+          },
+          initialValue: '16-9',
+        },
       ],
     },
   ],
@@ -925,41 +1037,57 @@ export const schemaTypes = [
       return { title: en || ar || 'Contact Page', subtitle: '/contact' }
     },
   },
+  groups: [
+    { name: 'seo',      title: '🔍 SEO',                default: true },
+    { name: 'hero',     title: '🎯 Hero' },
+    { name: 'details',  title: '📞 Contact Details' },
+    { name: 'map',      title: '🗺️ Map' },
+    { name: 'form',     title: '📝 Contact Form' },
+    { name: 'cta',      title: '🚀 Final CTA' },
+  ],
   fields: [
-    {
-      name: 'seo',
-      title: 'SEO Settings',
-      type: 'seo',
-    },
-    { name: 'eyebrow', title: 'Hero Eyebrow', type: 'localeString' },
-    {
-      name: 'title',
-      title: 'Page Title',
-      type: 'localeString',
-    },
-    {
-      name: 'subtitle',
-      title: 'Page Subtitle',
-      type: 'localeText',
-    },
-    { name: 'contactDetailsTitle', title: 'Contact Details Title', type: 'localeString' },
+    // ─── SEO ─────────────────────────────────────────────────────────
+    { name: 'seo', title: 'SEO Settings', type: 'seo', group: 'seo' },
+
+    // ─── HERO ────────────────────────────────────────────────────────
+    { name: 'eyebrow',  title: 'Eyebrow (small text above title)', type: 'localeString', group: 'hero' },
+    { name: 'title',    title: 'Page Title',                       type: 'localeString', group: 'hero' },
+    { name: 'subtitle', title: 'Page Subtitle',                    type: 'localeText',   group: 'hero' },
+
+    // ─── CONTACT DETAILS ─────────────────────────────────────────────
+    { name: 'contactDetailsTitle', title: 'Section Title', type: 'localeString', group: 'details' },
     {
       name: 'detailLabels',
-      title: 'Contact Detail Labels',
+      title: 'Detail Labels (bilingual)',
       type: 'object',
+      group: 'details',
+      description: 'Labels shown above each contact detail (Working Hours, Phone, Email, Location).',
       fields: [
-        { name: 'workingHours', title: 'Working Hours Label', type: 'string' },
-        { name: 'phone',        title: 'Phone Label',        type: 'string' },
-        { name: 'email',        title: 'Email Label',        type: 'string' },
-        { name: 'location',     title: 'Location Label',     type: 'localeString' },
+        { name: 'workingHours', title: 'Working Hours Label', type: 'localeString' },
+        { name: 'phone',        title: 'Phone Label',         type: 'localeString' },
+        { name: 'email',        title: 'Email Label',         type: 'localeString' },
+        { name: 'location',     title: 'Location Label',      type: 'localeString' },
       ],
     },
-    { name: 'openLocationButton', title: 'Open Location Button Text', type: 'localeString' },
-    { name: 'formEyebrow', title: 'Form Eyebrow', type: 'localeString' },
+    { name: 'phone',        title: 'Phone Number',    type: 'string',     group: 'details' },
+    { name: 'email',        title: 'Email Address',   type: 'string',     group: 'details' },
+    { name: 'address',      title: 'Address',         type: 'localeText', group: 'details' },
+    { name: 'workingHours', title: 'Working Hours',   type: 'string',     group: 'details', description: "e.g. '9 AM - 6 PM'" },
+    { name: 'openLocationButton', title: 'Open Location Button Text', type: 'localeString', group: 'details' },
+
+    // ─── MAP ─────────────────────────────────────────────────────────
+    { name: 'mapEmbed', title: 'Google Maps Embed URL', type: 'url', group: 'map', description: 'From Google Maps → Share → Embed a map → Copy the URL inside the iframe src.' },
+    { name: 'mapUrl',   title: 'Google Maps Page URL',  type: 'url', group: 'map', description: 'Link opened when the user clicks the location.' },
+
+    // ─── CONTACT FORM ────────────────────────────────────────────────
+    { name: 'formEyebrow',  title: 'Form Eyebrow',   type: 'localeString', group: 'form' },
+    { name: 'formTitle',    title: 'Form Title',     type: 'localeString', group: 'form' },
+    { name: 'formSubtitle', title: 'Form Subtitle',  type: 'localeText',   group: 'form' },
     {
       name: 'formPlaceholders',
-      title: 'Form Placeholders',
+      title: 'Field Placeholders',
       type: 'object',
+      group: 'form',
       fields: [
         { name: 'name',    title: 'Name Placeholder',    type: 'localeString' },
         { name: 'email',   title: 'Email Placeholder',   type: 'string' },
@@ -969,78 +1097,34 @@ export const schemaTypes = [
         { name: 'message', title: 'Message Placeholder', type: 'localeString' },
       ],
     },
-    { name: 'formSubmitText',    title: 'Form Submit Text',    type: 'localeString' },
-    { name: 'formSuccessTitle',  title: 'Form Success Title',  type: 'localeString' },
-    { name: 'formSuccessText',   title: 'Form Success Text',   type: 'localeText' },
-    { name: 'formErrorMessage',  title: 'Form Error Message',  type: 'localeText' },
-    { name: 'formPrivacyNote',   title: 'Form Privacy Note',   type: 'localeString' },
+    {
+      name: 'servicesOptions',
+      title: 'Service Dropdown Options',
+      type: 'array',
+      group: 'form',
+      of: [{ type: 'localeString' }],
+    },
+    { name: 'formSubmitText',   title: 'Submit Button Text', type: 'localeString', group: 'form' },
+    { name: 'formSuccessTitle', title: 'Success Title',      type: 'localeString', group: 'form' },
+    { name: 'formSuccessText',  title: 'Success Message',    type: 'localeText',   group: 'form' },
+    { name: 'formErrorMessage', title: 'Error Message',      type: 'localeText',   group: 'form' },
+    { name: 'formPrivacyNote',  title: 'Privacy Note',       type: 'localeString', group: 'form' },
     {
       name: 'recipientEmail',
       title: 'Form Recipient Email',
       type: 'string',
+      group: 'form',
       description: 'Where contact form submissions are emailed. Falls back to CONTACT_RECIPIENT_EMAIL env var if blank.',
     },
-    {
-      name: 'phone',
-      title: 'Phone Number',
-      type: 'string',
-    },
-    {
-      name: 'email',
-      title: 'Email Address',
-      type: 'string',
-    },
-    {
-      name: 'address',
-      title: 'Address',
-      type: 'text',
-    },
-    {
-      name: 'workingHours',
-      title: 'Working Hours',
-      type: 'string',
-    },
-      {
-  name: 'formTitle',
-  title: 'Form Title',
-  type: 'localeString',
-},
-{
-  name: 'formSubtitle',
-  title: 'Form Subtitle',
-  type: 'localeText',
-},
-{
-  name: 'servicesOptions',
-  title: 'Service Options',
-  type: 'array',
-  of: [{ type: 'localeString' }],
-},
-{
-  name: 'mapEmbed',
-  title: 'Google Maps Embed URL',
-  type: 'url',
-},
-{
-  name: 'mapUrl',
-  title: 'Google Maps Page URL',
-  type: 'url',
-},
-    { name: 'ctaTagline', title: 'CTA Tagline', type: 'localeString', description: 'Bold line on the left of the premium CTA.' },
-    { name: 'ctaSubTagline', title: 'CTA Sub-Tagline', type: 'localeString' },
-    {
-      name: 'ctaTitle',
-      title: 'CTA Title',
-      type: 'localeString',
-    },
-    {
-      name: 'ctaText',
-      title: 'CTA Text',
-      type: 'localeText',
-    },
-    { name: 'ctaButtonText', title: 'CTA Button Text', type: 'localeString' },
-    { name: 'ctaButtonLink', title: 'CTA Button Link', type: 'string' },
-    { name: 'ctaButtonNote', title: 'CTA Button Note', type: 'localeString', description: 'Small text under the CTA button.' },
+
+    // ─── FINAL CTA ───────────────────────────────────────────────────
+    { name: 'ctaTagline',    title: 'CTA Tagline',        type: 'localeString', group: 'cta', description: 'Bold line on the left of the premium CTA.' },
+    { name: 'ctaSubTagline', title: 'CTA Sub-Tagline',    type: 'localeString', group: 'cta' },
+    { name: 'ctaTitle',      title: 'CTA Title',          type: 'localeString', group: 'cta' },
+    { name: 'ctaText',       title: 'CTA Text',           type: 'localeText',   group: 'cta' },
+    { name: 'ctaButtonText', title: 'CTA Button Text',    type: 'localeString', group: 'cta' },
+    { name: 'ctaButtonLink', title: 'CTA Button Link',    type: 'string',       group: 'cta' },
+    { name: 'ctaButtonNote', title: 'CTA Button Note',    type: 'localeString', group: 'cta', description: 'Small text under the CTA button.' },
   ],
 },
 
@@ -1055,38 +1139,56 @@ export const schemaTypes = [
       return { title: en || ar || 'About Page', subtitle: '/about' }
     },
   },
+  groups: [
+    { name: 'seo',         title: '🔍 SEO',           default: true },
+    { name: 'hero',        title: '🎯 Hero' },
+    { name: 'positioning', title: '💡 Positioning' },
+    { name: 'mission',     title: '🎪 Mission' },
+    { name: 'methodology', title: '⚙️ Methodology' },
+    { name: 'principles',  title: '📐 Principles' },
+    { name: 'cta',         title: '🚀 Final CTA' },
+  ],
   fields: [
-    { name: 'seo', title: 'SEO', type: 'seo' },
-    {
-      name: 'heroImage',
-      title: 'Hero Image',
-      type: 'image',
-      options: { hotspot: true },
-    },
-    { name: 'eyebrow', title: 'Hero Eyebrow', type: 'localeString' },
-    { name: 'title', title: 'Hero Title', type: 'localeString' },
-    { name: 'subtitle', title: 'Hero Subtitle', type: 'localeText' },
-    { name: 'heroImageAlt', title: 'Hero Image Alt Text', type: 'localeString' },
-    { name: 'positioningTitle', title: 'Positioning Title', type: 'localeString' },
-    { name: 'positioning', title: 'Positioning Statement', type: 'localeText' },
-    { name: 'missionEyebrow', title: 'Mission Eyebrow', type: 'localeString' },
-    { name: 'missionTitle', title: 'Mission Title', type: 'localeString' },
-    { name: 'missionText', title: 'Mission Text', type: 'localeText' },
-    { name: 'methodologyEyebrow', title: 'Methodology Eyebrow', type: 'localeString' },
-    { name: 'methodologyTitle', title: 'Methodology Title', type: 'localeString' },
-    { name: 'methodologyText', title: 'Methodology Text', type: 'localeText' },
-    { name: 'principlesEyebrow', title: 'Principles Eyebrow', type: 'localeString' },
-    { name: 'principlesTitle', title: 'Principles Title', type: 'localeString' },
+    // ─── SEO ─────────────────────────────────────────────────────────
+    { name: 'seo', title: 'SEO Settings', type: 'seo', group: 'seo' },
+
+    // ─── HERO ────────────────────────────────────────────────────────
+    { name: 'eyebrow',      title: 'Eyebrow (small text above title)', type: 'localeString', group: 'hero' },
+    { name: 'title',        title: 'Hero Title',                       type: 'localeString', group: 'hero' },
+    { name: 'subtitle',     title: 'Hero Subtitle',                    type: 'localeText',   group: 'hero' },
+    { name: 'heroImage',    title: 'Hero Image',                       type: 'image',        group: 'hero', options: { hotspot: true } },
+    { name: 'heroImageAlt', title: 'Hero Image Alt Text',              type: 'localeString', group: 'hero', description: 'For accessibility & SEO.' },
+
+    // ─── POSITIONING ─────────────────────────────────────────────────
+    { name: 'positioningTitle', title: 'Section Title',       type: 'localeString', group: 'positioning' },
+    { name: 'positioning',      title: 'Positioning Statement', type: 'localeText', group: 'positioning' },
+
+    // ─── MISSION ─────────────────────────────────────────────────────
+    { name: 'missionEyebrow', title: 'Eyebrow',       type: 'localeString', group: 'mission' },
+    { name: 'missionTitle',   title: 'Section Title', type: 'localeString', group: 'mission' },
+    { name: 'missionText',    title: 'Section Text',  type: 'localeText',   group: 'mission' },
+
+    // ─── METHODOLOGY ─────────────────────────────────────────────────
+    { name: 'methodologyEyebrow', title: 'Eyebrow',       type: 'localeString', group: 'methodology' },
+    { name: 'methodologyTitle',   title: 'Section Title', type: 'localeString', group: 'methodology' },
+    { name: 'methodologyText',    title: 'Section Text',  type: 'localeText',   group: 'methodology' },
+
+    // ─── PRINCIPLES ──────────────────────────────────────────────────
+    { name: 'principlesEyebrow', title: 'Eyebrow',       type: 'localeString', group: 'principles' },
+    { name: 'principlesTitle',   title: 'Section Title', type: 'localeString', group: 'principles' },
     {
       name: 'principles',
-      title: 'Principles',
+      title: 'Principles List',
       type: 'array',
+      group: 'principles',
       of: [{ type: 'localeString' }],
     },
-    { name: 'ctaTitle', title: 'CTA Title', type: 'localeString' },
-    { name: 'ctaText', title: 'CTA Text', type: 'localeText' },
-    { name: 'ctaButtonText', title: 'CTA Button Text', type: 'localeString' },
-    { name: 'ctaButtonLink', title: 'CTA Button Link', type: 'string' },
+
+    // ─── FINAL CTA ───────────────────────────────────────────────────
+    { name: 'ctaTitle',      title: 'CTA Title',       type: 'localeString', group: 'cta' },
+    { name: 'ctaText',       title: 'CTA Text',        type: 'localeText',   group: 'cta' },
+    { name: 'ctaButtonText', title: 'CTA Button Text', type: 'localeString', group: 'cta' },
+    { name: 'ctaButtonLink', title: 'CTA Button Link', type: 'string',       group: 'cta' },
   ],
 },
 
@@ -1198,6 +1300,394 @@ export const schemaTypes = [
       ],
     },
     { name: 'successMessage', title: 'Success Message', type: 'localeText' },
+  ],
+},
+
+// ──────────────────────────────────────────────────────────────────────
+// Site Settings — analytics, pixels, verification tokens, API keys.
+// Edit-only-in-Studio singleton. Paste IDs here, they wire themselves
+// into every page automatically (see PageLayout.tsx).
+// ──────────────────────────────────────────────────────────────────────
+{
+  name: 'siteSettings',
+  title: 'Site Settings — Analytics & Pixels',
+  type: 'document',
+  preview: {
+    prepare() {
+      return {title: 'Site Settings', subtitle: 'Analytics, pixels, verification'}
+    },
+  },
+  groups: [
+    {name: 'google',       title: 'Google (Analytics, Ads, Search Console)'},
+    {name: 'meta',         title: 'Meta (Facebook & Instagram)'},
+    {name: 'other',        title: 'Other Pixels (TikTok, Snapchat, LinkedIn, X)'},
+    {name: 'verification', title: 'Site Verification Tokens'},
+  ],
+  fields: [
+    // ─── Google ───────────────────────────────────────────────────────
+    {
+      name: 'gaMeasurementId',
+      title: 'Google Analytics 4 — Measurement ID',
+      type: 'string',
+      group: 'google',
+      description: "Starts with 'G-'. From analytics.google.com → Admin → Data Streams → Web.",
+    },
+    {
+      name: 'gtmContainerId',
+      title: 'Google Tag Manager — Container ID',
+      type: 'string',
+      group: 'google',
+      description: "Starts with 'GTM-'. Use this instead of GA4 if you prefer managing tags in GTM.",
+    },
+    {
+      name: 'googleAdsConversionId',
+      title: 'Google Ads — Conversion ID',
+      type: 'string',
+      group: 'google',
+      description: "Starts with 'AW-'. From ads.google.com → Tools & Settings → Conversions → Tag setup.",
+    },
+    {
+      name: 'googleAdsConversionLabel',
+      title: 'Google Ads — Conversion Label',
+      type: 'string',
+      group: 'google',
+      description: 'The label of the conversion action you want to fire when the strategy form submits.',
+    },
+
+    // ─── Meta ─────────────────────────────────────────────────────────
+    {
+      name: 'metaPixelId',
+      title: 'Meta Pixel ID (Facebook & Instagram)',
+      type: 'string',
+      group: 'meta',
+      description: '15–16 digit number from business.facebook.com → Events Manager.',
+    },
+    {
+      name: 'metaConversionsApiToken',
+      title: 'Meta Conversions API — Access Token (optional)',
+      type: 'string',
+      group: 'meta',
+      description: 'For server-side tracking (bypasses iOS 14.5 blocking). Add later when ready.',
+    },
+
+    // ─── Other pixels ─────────────────────────────────────────────────
+    {
+      name: 'tiktokPixelId',
+      title: 'TikTok Pixel ID',
+      type: 'string',
+      group: 'other',
+    },
+    {
+      name: 'snapchatPixelId',
+      title: 'Snapchat Pixel ID',
+      type: 'string',
+      group: 'other',
+    },
+    {
+      name: 'linkedinPartnerId',
+      title: 'LinkedIn Insight Tag — Partner ID',
+      type: 'string',
+      group: 'other',
+    },
+    {
+      name: 'xPixelId',
+      title: 'X (Twitter) Pixel ID',
+      type: 'string',
+      group: 'other',
+    },
+
+    // ─── Site verification tokens ─────────────────────────────────────
+    {
+      name: 'googleSiteVerification',
+      title: 'Google Search Console — Verification Token',
+      type: 'string',
+      group: 'verification',
+      description: "The 'content' value from Google's HTML tag verification method.",
+    },
+    {
+      name: 'bingSiteVerification',
+      title: 'Bing Webmaster — Verification Token',
+      type: 'string',
+      group: 'verification',
+    },
+    {
+      name: 'yandexSiteVerification',
+      title: 'Yandex — Verification Token',
+      type: 'string',
+      group: 'verification',
+    },
+    {
+      name: 'facebookDomainVerification',
+      title: 'Facebook Domain Verification',
+      type: 'string',
+      group: 'verification',
+      description: 'From business.facebook.com → Business Settings → Brand Safety → Domains.',
+    },
+  ],
+},
+
+// ──────────────────────────────────────────────────────────────────────
+// Landing Pages — conversion-focused campaign pages at /lp/{slug}
+// ──────────────────────────────────────────────────────────────────────
+{
+  name: 'landingPage',
+  title: 'Landing Pages',
+  type: 'document',
+  preview: {
+    select: { en: 'hero.title.en', ar: 'hero.title.ar', slug: 'slug.current' },
+    prepare({ en, ar, slug }) {
+      return {
+        title: en || ar || slug || '(untitled landing page)',
+        subtitle: slug ? `/lp/${slug}` : '',
+      }
+    },
+  },
+  fields: [
+    { name: 'seo', title: 'SEO Settings', type: 'seo' },
+    {
+      name: 'slug',
+      title: 'URL Slug',
+      type: 'slug',
+      description: 'Used in the URL: /lp/{slug}. Keep it keyword-rich, e.g. "seo-qatar".',
+      options: { source: (doc) => (doc?.hero?.title?.en || doc?.hero?.title?.ar || ''), maxLength: 96 },
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'serviceTag',
+      title: 'Service Tag',
+      type: 'string',
+      description: 'Pre-filled in the strategy form so leads come tagged with the right campaign (e.g. "SEO Retainer Qatar").',
+    },
+
+    // Hero
+    {
+      name: 'hero',
+      title: 'Hero',
+      type: 'object',
+      fields: [
+        { name: 'eyebrow', title: 'Eyebrow (small label above headline)', type: 'localeString' },
+        { name: 'title', title: 'Headline', type: 'localeString' },
+        { name: 'subtitle', title: 'Subheadline', type: 'localeText' },
+        {
+          name: 'image',
+          title: 'Hero Image',
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            {
+              name: 'alt',
+              title: 'Alt Text',
+              type: 'localeString',
+              description: 'Accessibility + SEO. Should include "marketing agency in Qatar" or similar phrasing naturally.',
+            },
+            {
+              name: 'caption',
+              title: 'Caption (optional)',
+              type: 'localeString',
+              description: 'Optional caption shown under the image.',
+            },
+          ],
+        },
+        { name: 'ctaText', title: 'Primary CTA Text', type: 'localeString', description: 'e.g. "Get My Free SEO Audit"' },
+        { name: 'trustNote', title: 'Trust Note (small text below CTA)', type: 'localeString', description: 'e.g. "No commitment · 30-min call"' },
+      ],
+    },
+
+    // Pain points
+    {
+      name: 'pains',
+      title: 'Pain Points',
+      type: 'object',
+      fields: [
+        { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
+        { name: 'title', title: 'Title', type: 'localeString' },
+        { name: 'subtitle', title: 'Subtitle', type: 'localeText' },
+        {
+          name: 'items',
+          title: 'Pain Points',
+          type: 'array',
+          of: [{
+            type: 'object',
+            fields: [
+              { name: 'title', type: 'localeString', title: 'Title' },
+              { name: 'description', type: 'localeText', title: 'Description' },
+            ],
+            preview: { select: { en: 'title.en', ar: 'title.ar' }, prepare: ({en, ar}) => ({title: en || ar || 'Pain'}) },
+          }],
+        },
+      ],
+    },
+
+    // What's included
+    {
+      name: 'includes',
+      title: "What's Included",
+      type: 'object',
+      fields: [
+        { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
+        { name: 'title', title: 'Title', type: 'localeString' },
+        { name: 'subtitle', title: 'Subtitle', type: 'localeText' },
+        {
+          name: 'items',
+          title: 'Inclusions',
+          type: 'array',
+          of: [{
+            type: 'object',
+            fields: [
+              { name: 'title', type: 'localeString', title: 'Title' },
+              { name: 'description', type: 'localeText', title: 'Description' },
+            ],
+            preview: { select: { en: 'title.en', ar: 'title.ar' }, prepare: ({en, ar}) => ({title: en || ar || 'Item'}) },
+          }],
+        },
+      ],
+    },
+
+    // Process
+    {
+      name: 'process',
+      title: 'Process / How it works',
+      type: 'object',
+      fields: [
+        { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
+        { name: 'title', title: 'Title', type: 'localeString' },
+        {
+          name: 'steps',
+          title: 'Steps',
+          type: 'array',
+          of: [{
+            type: 'object',
+            fields: [
+              { name: 'title', type: 'localeString', title: 'Title' },
+              { name: 'description', type: 'localeText', title: 'Description' },
+            ],
+            preview: { select: { en: 'title.en', ar: 'title.ar' }, prepare: ({en, ar}) => ({title: en || ar || 'Step'}) },
+          }],
+        },
+      ],
+    },
+
+    // Proof / testimonials
+    {
+      name: 'proof',
+      title: 'Proof / Testimonials',
+      type: 'object',
+      fields: [
+        { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
+        { name: 'title', title: 'Title', type: 'localeString' },
+        {
+          name: 'testimonials',
+          title: 'Testimonials',
+          type: 'array',
+          of: [{
+            type: 'object',
+            fields: [
+              { name: 'quote', type: 'localeText', title: 'Quote' },
+              { name: 'author', type: 'string', title: 'Author Name' },
+              { name: 'role', type: 'localeString', title: 'Role / Company' },
+            ],
+            preview: { select: { author: 'author', en: 'role.en' }, prepare: ({author, en}) => ({title: author || 'Testimonial', subtitle: en}) },
+          }],
+        },
+      ],
+    },
+
+    // Featured case studies
+    {
+      name: 'featuredCaseStudies',
+      title: 'Featured Case Studies',
+      type: 'array',
+      description: 'Cherry-pick the most persuasive case studies for this campaign.',
+      of: [{ type: 'reference', to: [{ type: 'caseStudy' }] }],
+    },
+
+    // Pricing (optional)
+    {
+      name: 'pricing',
+      title: 'Pricing (optional)',
+      type: 'object',
+      fields: [
+        { name: 'show', title: 'Show Pricing Section', type: 'boolean', initialValue: false },
+        { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
+        { name: 'title', title: 'Title', type: 'localeString' },
+        { name: 'subtitle', title: 'Subtitle', type: 'localeText' },
+        {
+          name: 'tiers',
+          title: 'Pricing Tiers',
+          type: 'array',
+          of: [{
+            type: 'object',
+            fields: [
+              { name: 'name', type: 'localeString', title: 'Tier Name' },
+              { name: 'price', type: 'string', title: 'Price', description: 'e.g. "5,000 QAR"' },
+              { name: 'period', type: 'localeString', title: 'Period', description: 'e.g. "/month"' },
+              { name: 'description', type: 'localeText', title: 'Short Description' },
+              {
+                name: 'features',
+                title: 'Features',
+                type: 'array',
+                of: [{ type: 'localeString' }],
+              },
+              { name: 'ctaText', type: 'localeString', title: 'CTA Button Text' },
+              { name: 'popular', type: 'boolean', title: 'Mark as Most Popular', initialValue: false },
+            ],
+            preview: { select: { en: 'name.en', price: 'price' }, prepare: ({en, price}) => ({title: en || 'Tier', subtitle: price}) },
+          }],
+        },
+      ],
+    },
+
+    // FAQ
+    {
+      name: 'faqs',
+      title: 'FAQ',
+      type: 'object',
+      fields: [
+        { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
+        { name: 'title', title: 'Title', type: 'localeString' },
+        { name: 'subtitle', title: 'Subtitle', type: 'localeText' },
+        {
+          name: 'items',
+          title: 'FAQ Items',
+          type: 'array',
+          of: [{
+            type: 'object',
+            fields: [
+              { name: 'question', type: 'localeString', title: 'Question' },
+              { name: 'answer', type: 'localeText', title: 'Answer' },
+            ],
+            preview: { select: { en: 'question.en', ar: 'question.ar' }, prepare: ({en, ar}) => ({title: en || ar || 'Question'}) },
+          }],
+        },
+      ],
+    },
+
+    // Form Section copy (the form itself reuses global strategyForm settings)
+    {
+      name: 'form',
+      title: 'Form Section Copy',
+      type: 'object',
+      description: "The form's countries, services list and validation come from the global Strategy Form singleton. This section just controls the surrounding copy.",
+      fields: [
+        { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
+        { name: 'title', title: 'Title', type: 'localeString' },
+        { name: 'subtitle', title: 'Subtitle', type: 'localeText' },
+        { name: 'submitText', title: 'Submit Button Text', type: 'localeString' },
+      ],
+    },
+
+    // Final CTA
+    {
+      name: 'finalCta',
+      title: 'Final CTA',
+      type: 'object',
+      fields: [
+        { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
+        { name: 'title', title: 'Title', type: 'localeString' },
+        { name: 'subtitle', title: 'Subtitle', type: 'localeText' },
+        { name: 'buttonText', title: 'Button Text', type: 'localeString' },
+      ],
+    },
   ],
 },
 ]

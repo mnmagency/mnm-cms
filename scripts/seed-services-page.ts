@@ -27,7 +27,7 @@ const content = {
   ctaTitle: 'Ready to build your growth system?',
   ctaText:
     "Tell us about your business, market, and revenue targets. We'll send back a custom strategy showing exactly how the right combination of services can generate measurable growth.",
-  ctaButtonText: 'Get Your AI Growth Strategy',
+  ctaButtonText: 'Get Your Quote',
   ctaButtonLink: '/get-strategy',
   seo: {
     _type: 'seo',
