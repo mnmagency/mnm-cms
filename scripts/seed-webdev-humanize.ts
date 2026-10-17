@@ -8,6 +8,9 @@
  *
  *   cd ~/mnm-cms
  *   npx sanity exec scripts/seed-webdev-humanize.ts --with-user-token
+ *
+ * IMPORTANT: always run scripts/seed-webdev-seo.ts afterwards. It layers the
+ * Qatar/Doha keyword headings, H1 and intro on top of this copy.
  */
 /* eslint-disable no-console */
 

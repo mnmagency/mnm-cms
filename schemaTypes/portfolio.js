@@ -157,6 +157,7 @@ export const portfolioPage = {
     {name: 'resultsLabel', title: "'Results' label", type: 'localeString', group: 'detail'},
     {name: 'featuresLabel', title: "'Key features' label", type: 'localeString', group: 'detail'},
     {name: 'caseStudyText', title: "'Read the case study' link text", type: 'localeString', group: 'detail'},
+    {name: 'relatedServiceText', title: "Link to the related service", type: 'localeString', group: 'detail', description: "Shown on each project page, linking to its service. e.g. 'Explore our web development services in Qatar →'"},
     {name: 'moreProjectsTitle', title: "'More projects' heading", type: 'localeString', group: 'detail'},
     {name: 'ctaTitle', title: 'Final CTA Title', type: 'localeString', group: 'detail'},
     {name: 'ctaText', title: 'Final CTA Text', type: 'localeText', group: 'detail'},

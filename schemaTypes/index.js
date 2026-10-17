@@ -417,6 +417,7 @@ export const schemaTypes = [
         type: 'seo',
       },
       { name: 'heroEyebrow', title: 'Hero Eyebrow', type: 'localeString', description: "Defaults to 'M&M Service'." },
+      { name: 'heroTitle', title: 'Hero Title (H1)', type: 'localeString', description: "Main page heading. Put the target keyword here, e.g. 'Web Development in Qatar'. Falls back to Title." },
       { name: 'heroCtaButtonText', title: 'Hero CTA Button Text', type: 'localeString' },
       { name: 'heroCtaButtonLink', title: 'Hero CTA Button Link', type: 'string' },
       { name: 'title', title: 'Title', type: 'localeString' },

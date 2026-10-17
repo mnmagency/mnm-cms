@@ -44,7 +44,7 @@ const L = (en: string, ar: string): Loc => ({en, ar})
 // ─── 1. Portfolio page labels ────────────────────────────────────────────────
 const PORTFOLIO_PAGE = {
   eyebrow: L('Portfolio', 'أعمالنا'),
-  title: L('Websites we’ve designed and built', 'مواقع صممناها وطورناها'),
+  title: L('Websites we have designed and built in Qatar', 'مواقع صممناها وبنيناها في قطر'),
   subtitle: L(
     'Company websites, online stores and web portals we have built for brands in Qatar and the GCC. Fast, bilingual and easy for your own team to update.',
     'مواقع شركات ومتاجر إلكترونية وبوابات ويب بنيناها لعلامات تجارية في قطر ودول الخليج. سريعة وثنائية اللغة وسهلة التحديث من فريقك.',
@@ -65,6 +65,7 @@ const PORTFOLIO_PAGE = {
   resultsLabel: L('Results', 'النتائج'),
   featuresLabel: L('Key Features', 'أبرز المزايا'),
   caseStudyText: L('Read the full case study →', 'اقرأ دراسة الحالة كاملة ←'),
+  relatedServiceText: L('Explore our web development services in Qatar →', 'تعرّف على خدمات تطوير المواقع في قطر ←'),
   moreProjectsTitle: L('More projects', 'مشاريع أخرى'),
   ctaTitle: L('Want a website like this?', 'تريد موقعاً مثل هذا؟'),
   ctaText: L(
@@ -196,6 +197,10 @@ async function run() {
     ),
   )
 
+  const webDevId = await client.fetch<string | null>(
+    `*[_type == "service" && slug.current == "web-development" && !(_id in path("drafts.**"))][0]._id`,
+  )
+
   for (const p of PORTFOLIO_PROJECTS) {
     const _id = `webProject-${p.id}`
     const existing = await client.fetch<{
@@ -225,6 +230,9 @@ async function run() {
         ...(gallery.length ? {gallery} : {}),
         ...(p.clientLogoAssetId ? {clientLogo: imageRef(p.clientLogoAssetId)} : {}),
         ...(rel ? {relatedCaseStudy: {_type: 'reference', _ref: rel}} : {}),
+        ...(webDevId && p.showOnWebDevPage
+          ? {relatedServices: [{_key: 'web-development', _type: 'reference', _ref: webDevId}]}
+          : {}),
       })
       console.log('   ✓ created')
     } else {
