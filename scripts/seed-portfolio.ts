@@ -21,6 +21,9 @@
  *   cd ~/mnm-cms
  *   npx sanity exec scripts/seed-portfolio.ts --with-user-token
  *   npx sanity exec scripts/seed-portfolio.ts --with-user-token -- --update
+ *   npx sanity exec scripts/seed-portfolio.ts --with-user-token -- --replace-images
+ *
+ * Images should be WebP (convert before dropping them into seed-assets).
  */
 /* eslint-disable no-console */
 
@@ -31,6 +34,9 @@ import {PORTFOLIO_PROJECTS, type PortfolioProject} from './portfolio-projects'
 
 const client = getCliClient({apiVersion: '2024-01-01'})
 const UPDATE = process.argv.includes('--update') || process.env.UPDATE === '1'
+// Re-upload local seed-assets images even if the doc already has images, then
+// delete the replaced assets (only if nothing else references them).
+const REPLACE_IMAGES = process.argv.includes('--replace-images')
 
 type Loc = {en: string; ar: string}
 const L = (en: string, ar: string): Loc => ({en, ar})
@@ -82,7 +88,7 @@ const imageRef = (assetId: string) => ({_type: 'image', asset: {_type: 'referenc
 
 async function findLocalImage(slug: string): Promise<string | null> {
   const dir = path.join(process.cwd(), 'seed-assets', 'portfolio')
-  for (const ext of ['jpg', 'jpeg', 'png', 'webp']) {
+  for (const ext of ['webp', 'jpg', 'jpeg', 'png']) {
     const p = path.join(dir, `${slug}.${ext}`)
     if (fs.existsSync(p)) return p
   }
@@ -192,8 +198,15 @@ async function run() {
 
   for (const p of PORTFOLIO_PROJECTS) {
     const _id = `webProject-${p.id}`
-    const existing = await client.fetch<{_id: string; hasImage: boolean; hasGallery: boolean} | null>(
-      `*[_id == $id][0]{ _id, "hasImage": defined(heroImage.asset), "hasGallery": count(gallery) > 0 }`,
+    const existing = await client.fetch<{
+      _id: string
+      hasImage: boolean
+      hasGallery: boolean
+      hero?: string
+      gallery?: string[] | null
+    } | null>(
+      `*[_id == $id][0]{ _id, "hasImage": defined(heroImage.asset), "hasGallery": count(gallery) > 0,
+        "hero": heroImage.asset._ref, "gallery": gallery[].asset._ref }`,
       {id: _id},
     )
     console.log(`• ${p.slug}${existing ? ' (exists)' : ''}`)
@@ -217,17 +230,37 @@ async function run() {
     } else {
       let patch = client.patch(_id)
       if (UPDATE) patch = patch.set(textFields(p))
-      if (!existing.hasImage) {
+      const replaced: string[] = []
+      const hasLocalHero = !!(await findLocalImage(p.slug))
+      if (!existing.hasImage || (REPLACE_IMAGES && hasLocalHero && !p.heroImageAssetId)) {
         const heroImage = await resolveHeroImage(p)
         if (heroImage) patch = patch.set({heroImage})
+        if (heroImage && existing.hasImage) replaced.push('hero')
       }
-      if (!existing.hasGallery) {
+      if (!existing.hasGallery || (REPLACE_IMAGES && findGalleryImages(p.slug).length)) {
         const gallery = await uploadGallery(p)
         if (gallery.length) patch = patch.set({gallery})
+        if (gallery.length && existing.hasGallery) replaced.push('gallery')
       }
       if (rel) patch = patch.setIfMissing({relatedCaseStudy: {_type: 'reference', _ref: rel}})
       if (p.clientLogoAssetId) patch = patch.setIfMissing({clientLogo: imageRef(p.clientLogoAssetId)})
       await patch.commit()
+      if (replaced.length) {
+        const cur = await client.fetch<{hero?: string; gallery?: string[]} | null>(
+          `*[_id == $id][0]{ "hero": heroImage.asset._ref, "gallery": gallery[].asset._ref }`,
+          {id: _id},
+        )
+        const now = [cur?.hero, ...(cur?.gallery || [])].filter(Boolean) as string[]
+        for (const assetId of [existing.hero, ...(existing.gallery || [])].filter((a): a is string => !!a).filter((a) => !now.includes(a))) {
+          try {
+            await client.delete(assetId)
+            console.log(`   ✗ removed old asset ${assetId}`)
+          } catch {
+            console.log(`   · kept old asset ${assetId} (used elsewhere)`)
+          }
+        }
+        console.log(`   ✓ replaced images (${replaced.join(', ')})`)
+      }
       console.log(UPDATE ? '   ✓ updated' : '   ✓ kept (pass --update to refresh text)')
     }
   }
