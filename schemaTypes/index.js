@@ -1,5 +1,6 @@
 import {localeString, localeText} from './locale'
 import {webProject, portfolioPage} from './portfolio'
+import {comparisonBlock, cardsBlock} from './blocks'
 
 export const schemaTypes = [
   // Localized field primitives — used throughout the schema
@@ -577,6 +578,8 @@ export const schemaTypes = [
           { type: 'textBlock' },
           { type: 'imageBlock' },
           { type: 'featuresBlock' },
+          { type: 'cardsBlock' },
+          { type: 'comparisonBlock' },
           { type: 'ctaBlock' },
         ],
       },
@@ -1702,4 +1705,7 @@ export const schemaTypes = [
   // Web Development portfolio (see ./portfolio.js)
   webProject,
   portfolioPage,
+  // Extra service page-builder blocks (see ./blocks.js)
+  comparisonBlock,
+  cardsBlock,
 ]
