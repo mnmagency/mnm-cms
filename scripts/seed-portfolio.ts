@@ -13,8 +13,9 @@
  * --update (text fields only; images you replaced in Studio are kept).
  * The old inline `projects[]` on the service is left untouched as a fallback.
  *
- * Images for new projects: seed-assets/portfolio/<slug>.(jpg|png|webp);
- * if missing, the live site's og:image is downloaded instead.
+ * Images: seed-assets/portfolio/<slug>.(jpg|png|webp) = main image (if missing,
+ * the live site's og:image is used); <slug>-2.jpg, <slug>-3.jpg … = gallery.
+ * Both are only uploaded when the document has no main image / gallery yet.
  *
  * Run (uses your Sanity login — no token needed):
  *   cd ~/mnm-cms
@@ -86,6 +87,30 @@ async function findLocalImage(slug: string): Promise<string | null> {
     if (fs.existsSync(p)) return p
   }
   return null
+}
+
+/** seed-assets/portfolio/<slug>-2.jpg, <slug>-3.png … → gallery images (sorted by number). */
+function findGalleryImages(slug: string): string[] {
+  const dir = path.join(process.cwd(), 'seed-assets', 'portfolio')
+  if (!fs.existsSync(dir)) return []
+  const re = new RegExp(`^${slug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}-(\\d+)\\.(jpe?g|png|webp)$`, 'i')
+  return fs
+    .readdirSync(dir)
+    .map((f) => ({f, m: f.match(re)}))
+    .filter((x) => x.m)
+    .sort((a, b) => Number(a.m![1]) - Number(b.m![1]))
+    .map((x) => path.join(dir, x.f))
+}
+
+async function uploadGallery(p: PortfolioProject) {
+  const files = findGalleryImages(p.slug)
+  const out = []
+  for (const [i, file] of files.entries()) {
+    console.log(`   ↑ gallery ${path.basename(file)}`)
+    const asset = await client.assets.upload('image', fs.createReadStream(file), {filename: path.basename(file)})
+    out.push({_key: `g${i}`, ...imageRef(asset._id), alt: {en: `${p.title.en} — screenshot ${i + 1}`, ar: `${p.title.ar} — لقطة ${i + 1}`}})
+  }
+  return out
 }
 
 async function fetchOgImage(siteUrl: string): Promise<{buf: Buffer; name: string} | null> {
@@ -167,8 +192,8 @@ async function run() {
 
   for (const p of PORTFOLIO_PROJECTS) {
     const _id = `webProject-${p.id}`
-    const existing = await client.fetch<{_id: string; hasImage: boolean} | null>(
-      `*[_id == $id][0]{ _id, "hasImage": defined(heroImage.asset) }`,
+    const existing = await client.fetch<{_id: string; hasImage: boolean; hasGallery: boolean} | null>(
+      `*[_id == $id][0]{ _id, "hasImage": defined(heroImage.asset), "hasGallery": count(gallery) > 0 }`,
       {id: _id},
     )
     console.log(`• ${p.slug}${existing ? ' (exists)' : ''}`)
@@ -178,11 +203,13 @@ async function run() {
 
     if (!existing) {
       const heroImage = await resolveHeroImage(p)
+      const gallery = await uploadGallery(p)
       await client.create({
         _id,
         _type: 'webProject',
         ...textFields(p),
         ...(heroImage ? {heroImage} : {}),
+        ...(gallery.length ? {gallery} : {}),
         ...(p.clientLogoAssetId ? {clientLogo: imageRef(p.clientLogoAssetId)} : {}),
         ...(rel ? {relatedCaseStudy: {_type: 'reference', _ref: rel}} : {}),
       })
@@ -193,6 +220,10 @@ async function run() {
       if (!existing.hasImage) {
         const heroImage = await resolveHeroImage(p)
         if (heroImage) patch = patch.set({heroImage})
+      }
+      if (!existing.hasGallery) {
+        const gallery = await uploadGallery(p)
+        if (gallery.length) patch = patch.set({gallery})
       }
       if (rel) patch = patch.setIfMissing({relatedCaseStudy: {_type: 'reference', _ref: rel}})
       if (p.clientLogoAssetId) patch = patch.setIfMissing({clientLogo: imageRef(p.clientLogoAssetId)})
