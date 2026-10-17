@@ -1,4 +1,5 @@
 import {localeString, localeText} from './locale'
+import {webProject, portfolioPage} from './portfolio'
 
 export const schemaTypes = [
   // Localized field primitives — used throughout the schema
@@ -429,6 +430,13 @@ export const schemaTypes = [
       { name: 'deliverablesTitle',    title: 'Deliverables Title',      type: 'localeString' },
       { name: 'projectsEyebrow',      title: 'Projects Eyebrow',        type: 'localeString' },
       { name: 'projectsTitle',        title: 'Projects Title',          type: 'localeString' },
+      {
+        name: 'featuredWebProjects',
+        title: 'Portfolio Projects (shown as cards)',
+        type: 'array',
+        of: [{ type: 'reference', to: [{ type: 'webProject' }] }],
+        description: 'Pick projects from the Portfolio. When set, these replace the inline "Projects / Companies We Worked For" cards below. Order = display order.',
+      },
       { name: 'faqsEyebrow',          title: 'FAQs Eyebrow',            type: 'localeString' },
       { name: 'faqsTitle',            title: 'FAQs Title',              type: 'localeString' },
 
@@ -1690,4 +1698,8 @@ export const schemaTypes = [
     },
   ],
 },
+
+  // Web Development portfolio (see ./portfolio.js)
+  webProject,
+  portfolioPage,
 ]
