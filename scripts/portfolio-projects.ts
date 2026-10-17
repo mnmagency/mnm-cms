@@ -80,50 +80,96 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     showOnWebDevPage: true,
   },
 
-  // ── Denza Qatar (migrated from the inline card; linked to its case study) ──
+  // ── Denza Qatar (Z9 GT, B5 and B8 configurators; linked to its case study) ─
   {
     id: 'denza-qatar',
     slug: 'denza-qatar',
     order: 20,
     title: L('Denza Qatar', 'دينزا قطر'),
-    clientName: L('Denza Qatar', 'دينزا قطر'),
+    clientName: L('Denza Qatar by Mannai', 'دينزا قطر من مناعي'),
     websiteUrl: 'https://www.denzaqatar.com',
     category: L('Automotive', 'السيارات'),
-    projectType: L('Brand Website', 'موقع علامة تجارية'),
+    projectType: L('Brand website with car configurators', 'موقع علامة تجارية مع أدوات تكوين السيارات'),
+    technologies: ['Next.js', 'Headless CMS', 'Node.js', 'Three.js', 'Tailwind CSS'],
     summary: L(
-      'The official Qatar website for DENZA, BYD’s premium electric marque.',
-      'الموقع الرسمي في قطر لعلامة دينزا، العلامة الفاخرة للسيارات الكهربائية من BYD.',
+      'The official DENZA website in Qatar, with interactive configurators for the B5, the B8 and the flagship Z9 GT.',
+      'الموقع الرسمي لعلامة دينزا في قطر، مع أدوات تكوين تفاعلية لطرازات B5 وB8 والطراز الأبرز Z9 GT.',
     ),
     overview: L(
-      'DENZA is where the elegance of East and West come together, a blend of technology and poetry.\n\nFounded in 2010 as a joint venture between BYD and Mercedes-Benz, DENZA set out to redefine the driving experience through innovation, intelligence and refined design.\n\nIn 2024, DENZA became BYD’s fully owned premium brand, opening a new chapter in technology-led mobility.',
-      'دينزا هي المكان الذي تلتقي فيه أناقة الشرق والغرب، مزيج من التكنولوجيا والشعر.\n\nتأسست DENZA في عام 2010 كمشروع مشترك بين BYD وMercedes-Benz، بهدف إعادة تعريف تجربة القيادة من خلال الابتكار والذكاء والتصميم الراقي.\n\nوفي عام 2024، أصبحت DENZA العلامة الفاخرة المملوكة بالكامل لشركة BYD، لتبدأ فصلاً جديداً في التنقل القائم على التكنولوجيا.',
+      'DENZA is BYD’s premium car brand, brought to Qatar by Mannai. They needed a website that feels as premium as the cars and turns interest into test drives. We designed and built a bilingual site in English and Arabic where visitors can explore every model, build their own car and book a test drive in a few clicks.',
+      'دينزا هي العلامة الفاخرة لسيارات BYD، وقد قدّمتها مناعي إلى قطر. احتاجوا إلى موقع يليق بفخامة السيارات ويحوّل الاهتمام إلى حجوزات تجربة قيادة. صممنا وبنينا موقعاً ثنائي اللغة بالعربية والإنجليزية يستكشف فيه الزائر كل طراز، ويصمم سيارته بنفسه، ويحجز تجربة قيادة بنقرات قليلة.',
     ),
-    heroImageAssetId: 'image-5344afb16725bafcbf3697df0b9f73ae9d16a43b-2878x1552-png',
+    solution: L(
+      `A fast Next.js website on a headless CMS, with Node.js handling forms and leads.
+
+The Z9 GT configurator is the centrepiece. Buyers choose the drive (fully electric or plug-in hybrid), the paintwork and the interior, explore the car in a self-hosted 360° 3D view, then download a branded bilingual PDF of their build or send it straight to the sales team.
+
+The B5 and B8 pages have their own configurators with a 360° exterior view, a 720° interior view and wheel options. Every lead, from test drive requests to saved configurations, is stored in the CMS, emailed to the sales team and passed to the dealer’s Dynamics 365 CRM.`,
+      `موقع Next.js سريع على نظام إدارة محتوى Headless، مع Node.js لمعالجة النماذج والطلبات.
+
+أداة تكوين Z9 GT هي محور الموقع. يختار المشتري نوع الدفع (كهربائي بالكامل أو هجين قابل للشحن)، ولون الطلاء، والتصميم الداخلي، ثم يستكشف السيارة بعرض ثلاثي الأبعاد بزاوية 360°، وبعدها يحمّل ملف PDF ثنائي اللغة يحمل هوية العلامة لمواصفات سيارته، أو يرسله مباشرة إلى فريق المبيعات.
+
+ولصفحتي B5 وB8 أدوات تكوين خاصة بهما، مع عرض خارجي بزاوية 360° وعرض داخلي بزاوية 720° وخيارات للعجلات. وكل طلب، من حجوزات تجربة القيادة إلى التكوينات المحفوظة، يُحفظ في نظام إدارة المحتوى ويُرسل إلى فريق المبيعات بالبريد ويصل إلى نظام Dynamics 365 لدى الوكيل.`,
+    ),
+    features: [
+      L('Z9 GT configurator: drive, paintwork and interior', 'أداة تكوين Z9 GT: نوع الدفع والطلاء والتصميم الداخلي'),
+      L('Self-hosted 360° 3D viewer', 'عارض ثلاثي الأبعاد بزاوية 360° مستضاف على الموقع'),
+      L('Branded bilingual PDF of each build', 'ملف PDF ثنائي اللغة بهوية العلامة لكل تكوين'),
+      L('B5 and B8 configurators: 360° exterior, 720° interior, wheels', 'أدوات تكوين B5 وB8: عرض خارجي 360° وداخلي 720° والعجلات'),
+      L('Leads sent to the CMS, sales inbox and Dynamics 365 CRM', 'طلبات تصل إلى نظام المحتوى وبريد المبيعات ونظام Dynamics 365'),
+      L('Full English and Arabic with right-to-left layouts', 'العربية والإنجليزية بالكامل مع تصميم من اليمين إلى اليسار'),
+    ],
     clientLogoAssetId: 'image-04549a44857bc6af573ed0605b62c3d6de591329-259x194-jpg',
     relatedCaseStudySlug: 'designing-and-developing-denza-qatar-website',
+    seo: {
+      metaTitle: L('Denza Qatar Website and Z9 GT Configurator | M&M', 'موقع دينزا قطر وأداة تكوين Z9 GT | M&M'),
+      metaDescription: L(
+        'How M&M built the Denza Qatar website with configurators for the Z9 GT, B5 and B8, a 360° 3D viewer, PDF builds and CRM-connected leads.',
+        'كيف بنت M&M موقع دينزا قطر مع أدوات تكوين Z9 GT وB5 وB8 وعارض 360° وملفات PDF وطلبات مرتبطة بنظام CRM.',
+      ),
+    },
     showOnWebDevPage: true,
   },
 
-  // ── ICC Qatar (migrated from the inline card) ──────────────────────────────
+  // ── ICC Qatar (Laravel) ─────────────────────────────────────────────────────
   {
     id: 'icc-qatar',
     slug: 'icc-qatar',
     order: 30,
     title: L('ICC Qatar', 'غرفة التجارة الدولية قطر'),
     clientName: L('International Chamber of Commerce Qatar', 'غرفة التجارة الدولية قطر'),
-    // websiteUrl: 'https://…',  ← TODO: confirm live URL
+    websiteUrl: 'https://iccqatar.org',
     category: L('Semi Government', 'شبه حكومية'),
-    projectType: L('Institutional Website', 'موقع مؤسسي'),
+    projectType: L('Institutional website', 'موقع مؤسسي'),
+    technologies: ['Laravel', 'PHP'],
     summary: L(
-      'Website for ICC Qatar, the national committee of the Paris-based International Chamber of Commerce.',
-      'موقع غرفة التجارة الدولية قطر، اللجنة الوطنية لغرفة التجارة الدولية ومقرها باريس.',
+      'The website of ICC Qatar, the national committee of the International Chamber of Commerce, built on Laravel.',
+      'موقع غرفة التجارة الدولية قطر، اللجنة الوطنية لغرفة التجارة الدولية، مبني على Laravel.',
     ),
     overview: L(
-      'ICC is the world business organization, with a global network of over 6 million members in more than 100 countries, enabling business to secure peace, prosperity and opportunity for all.\n\nThe International Chamber of Commerce (ICC) Qatar, a national committee of the Paris-based ICC, represents a growing number of Qatari-based businesses, as well as, local and foreign business chambers and key national associations of the business sector.\n\nICC Qatar was established more than twenty years ago to promote the Qatari business community\'s interests in areas such as trade, investment and international relations. Furthermore, to help cultivate an environment conducive to foreign investments and enable Qatari businesses to be more involved with the global economy.',
-      'غرفة التجارة الدولية هي منظمة الأعمال العالمية، مع شبكة عالمية تضم أكثر من 6 ملايين عضو في أكثر من 100 دولة، مما يتيح للشركات ضمان السلام والازدهار والفرص للجميع.\n\nتمثل غرفة التجارة الدولية في قطر، وهي لجنة وطنية تابعة لغرفة التجارة الدولية ومقرها باريس، عددًا متزايدًا من الشركات القطرية، بالإضافة إلى غرف الأعمال المحلية والأجنبية والجمعيات الوطنية الرئيسية لقطاع الأعمال.\n\nتأسست غرفة التجارة الدولية قطر منذ أكثر من عشرين عاماً لتعزيز مصالح مجتمع الأعمال القطري في مجالات مثل التجارة والاستثمار والعلاقات الدولية. علاوة على ذلك، للمساعدة في تهيئة بيئة مواتية للاستثمارات الأجنبية وتمكين الشركات القطرية من المشاركة بشكل أكبر في الاقتصاد العالمي.',
+      'ICC Qatar represents Qatari businesses within the International Chamber of Commerce, the world business organisation with members in more than 170 countries. They needed one clear place to share news, publications, training, certifications and events, and to make joining ICC simple.',
+      'تمثّل غرفة التجارة الدولية قطر الشركات القطرية داخل غرفة التجارة الدولية، منظمة الأعمال العالمية التي تضم أعضاء في أكثر من 170 دولة. احتاجوا إلى مكان واحد وواضح لنشر الأخبار والمنشورات والتدريب والشهادات والفعاليات، وتسهيل الانضمام إلى الغرفة.',
     ),
-    heroImageAssetId: 'image-f2034668f15ab62e8744cc213248d2937c55927a-2870x1396-jpg',
+    solution: L(
+      'A custom Laravel website with content the ICC Qatar team keeps up to date themselves. It brings together the newsroom, resources for business (publications, training, certifications and events), the World Chambers Federation, ICC dispute resolution and SME services, membership sign-up and a contact form, so every visitor finds what they need quickly.',
+      'موقع مخصص مبني على Laravel يحدّث فريق الغرفة محتواه بنفسه. يجمع غرفة الأخبار، وموارد الأعمال (المنشورات والتدريب والشهادات والفعاليات)، واتحاد الغرف العالمي، وخدمات تسوية النزاعات ودعم الشركات الصغيرة والمتوسطة، والتسجيل في العضوية، ونموذج التواصل، ليجد كل زائر ما يحتاجه بسرعة.',
+    ),
+    features: [
+      L('Newsroom with categories', 'غرفة أخبار مصنّفة'),
+      L('Resources hub: publications, training, certifications and events', 'مركز موارد: منشورات وتدريب وشهادات وفعاليات'),
+      L('Dispute resolution and SME service highlights', 'إبراز خدمات تسوية النزاعات ودعم الشركات الصغيرة والمتوسطة'),
+      L('Membership sign-up', 'التسجيل في العضوية'),
+      L('Email alerts sign-up', 'الاشتراك في التنبيهات البريدية'),
+      L('Contact form with location map', 'نموذج تواصل مع خريطة الموقع'),
+    ],
     clientLogoAssetId: 'image-618602357a73b3b175b39ded9e2241cc510271bf-1218x918-webp',
+    seo: {
+      metaTitle: L('ICC Qatar Website on Laravel | Web Development by M&M', 'موقع غرفة التجارة الدولية قطر | تطوير المواقع من M&M'),
+      metaDescription: L(
+        'How M&M built the ICC Qatar website on Laravel: newsroom, publications, training, certifications, events and membership in one place.',
+        'كيف بنت M&M موقع غرفة التجارة الدولية قطر على Laravel: الأخبار والمنشورات والتدريب والشهادات والفعاليات والعضوية في مكان واحد.',
+      ),
+    },
     showOnWebDevPage: true,
   },
 ]
