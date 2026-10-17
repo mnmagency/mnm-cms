@@ -46,8 +46,8 @@ const PORTFOLIO_PAGE = {
   eyebrow: L('Portfolio', 'أعمالنا'),
   title: L('Websites we’ve designed and built', 'مواقع صممناها وطورناها'),
   subtitle: L(
-    'Corporate sites, e-commerce platforms and web portals delivered by M&M for brands in Qatar and the GCC — fast, bilingual and fully editable by your team.',
-    'مواقع مؤسسية ومنصات تجارة إلكترونية وبوابات ويب نفذتها M&M لعلامات تجارية في قطر ودول الخليج — سريعة وثنائية اللغة وقابلة للتعديل بالكامل من فريقك.',
+    'Company websites, online stores and web portals we have built for brands in Qatar and the GCC. Fast, bilingual and easy for your own team to update.',
+    'مواقع شركات ومتاجر إلكترونية وبوابات ويب بنيناها لعلامات تجارية في قطر ودول الخليج. سريعة وثنائية اللغة وسهلة التحديث من فريقك.',
   ),
   allFilterText: L('All', 'الكل'),
   cardCtaText: L('View Project →', 'عرض المشروع ←'),
@@ -77,8 +77,8 @@ const PORTFOLIO_PAGE = {
     _type: 'seo',
     metaTitle: L('Web Development Portfolio Qatar | M&M Marketing', 'أعمال تطوير المواقع في قطر | M&M للتسويق'),
     metaDescription: L(
-      'Websites designed and developed by M&M Marketing for brands in Qatar and the GCC — corporate, e-commerce and web portals built on modern stacks.',
-      'مواقع صممتها وطورتها M&M للتسويق لعلامات تجارية في قطر والخليج — مواقع مؤسسية ومتاجر إلكترونية وبوابات ويب بأحدث التقنيات.',
+      'Websites designed and built by M&M Marketing for brands in Qatar and the GCC: company sites, online stores and web portals on modern technology.',
+      'مواقع صممتها وبنتها M&M للتسويق لعلامات تجارية في قطر والخليج: مواقع شركات ومتاجر إلكترونية وبوابات ويب بتقنيات حديثة.',
     ),
   },
 }
@@ -114,7 +114,7 @@ async function uploadGallery(p: PortfolioProject) {
   for (const [i, file] of files.entries()) {
     console.log(`   ↑ gallery ${path.basename(file)}`)
     const asset = await client.assets.upload('image', fs.createReadStream(file), {filename: path.basename(file)})
-    out.push({_key: `g${i}`, ...imageRef(asset._id), alt: {en: `${p.title.en} — screenshot ${i + 1}`, ar: `${p.title.ar} — لقطة ${i + 1}`}})
+    out.push({_key: `g${i}`, ...imageRef(asset._id), alt: {en: `${p.title.en}, screenshot ${i + 1}`, ar: `${p.title.ar}، لقطة ${i + 1}`}})
   }
   return out
 }
