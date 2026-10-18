@@ -181,6 +181,56 @@ Around the models sit the pages that turn interest into business: test drive and
     showOnWebDevPage: true,
   },
 
+  // ── Mirage Property (WordPress) ─────────────────────────────────────────────
+  {
+    id: 'mirage-property',
+    slug: 'mirage-property',
+    order: 28,
+    title: L('Mirage Property', 'ميراج للعقارات'),
+    clientName: L('Mirage Property Qatar', 'ميراج للعقارات قطر'),
+    websiteUrl: 'https://mirageproperty.com',
+    category: L('Real Estate', 'العقارات'),
+    projectType: L('Property portal with location search', 'بوابة عقارية مع البحث حسب الموقع'),
+    technologies: ['WordPress', 'Houzez', 'Elementor', 'Google Maps API'],
+    summary: L(
+      'A property portal for homes and commercial spaces in Doha, Lusail and across Qatar, where tenants can search by what is nearby.',
+      'بوابة عقارية للمنازل والمساحات التجارية في الدوحة ولوسيل وأنحاء قطر، يبحث فيها المستأجر حسب ما هو قريب منه.',
+    ),
+    overview: L(
+      'Mirage Property rents, sells and manages apartments, villas, compounds and commercial spaces across Qatar. Tenants rarely search by listing alone. They want to know what is near the school, the metro or the office. We built a property portal that lets them search the way they actually think.',
+      'تؤجر ميراج للعقارات وتبيع وتدير الشقق والفلل والمجمعات والمساحات التجارية في أنحاء قطر. ونادراً ما يبحث المستأجر عن العقار وحده، فهو يريد أن يعرف ما القريب من المدرسة أو المترو أو المكتب. لذلك بنينا بوابة عقارية تتيح له البحث بالطريقة التي يفكر بها فعلاً.',
+    ),
+    solution: L(
+      `A WordPress property portal built on Houzez and Elementor, so the Mirage team can add listings, prices and photos themselves.
+
+The standout feature is location search. Visitors can browse every listing on a map of Qatar, find properties near them, near schools or near metro stations, or pick a point such as their office and see what they can reach within a set travel time by bus, car or on foot.
+
+Each listing has a full gallery, key specs, a virtual tour, a viewing request form and one-tap WhatsApp. Area pages for Lusail, The Pearl, West Bay, Al Waab, Al Wakrah and more help people explore by neighbourhood.`,
+      `بوابة عقارية على WordPress مبنية بـ Houzez وElementor، ليضيف فريق ميراج العقارات والأسعار والصور بنفسه.
+
+أبرز ما فيها هو البحث حسب الموقع. يستطيع الزائر تصفح كل العقارات على خريطة قطر، أو العثور على العقارات القريبة منه أو من المدارس أو من محطات المترو، أو اختيار نقطة مثل مكتبه ليرى ما يمكنه الوصول إليه خلال وقت تنقل محدد بالحافلة أو السيارة أو سيراً على الأقدام.
+
+ولكل عقار معرض صور كامل ومواصفات أساسية وجولة افتراضية ونموذج لطلب المعاينة وزر واتساب بلمسة واحدة. كما تساعد صفحات المناطق مثل لوسيل واللؤلؤة والخليج الغربي والوعب والوكرة الزوار على الاستكشاف حسب الحي.`,
+    ),
+    features: [
+      L('Map search across Qatar', 'البحث على خريطة قطر'),
+      L('Find properties near me, near schools or near metro stations', 'عقارات قريبة مني أو من المدارس أو من محطات المترو'),
+      L('Travel-time search by bus, car or walking', 'البحث حسب وقت التنقل بالحافلة أو السيارة أو سيراً'),
+      L('Listing pages with gallery, virtual tour and viewing requests', 'صفحات عقارات مع معرض صور وجولة افتراضية وطلب معاينة'),
+      L('Area pages for Lusail, The Pearl, West Bay and more', 'صفحات مناطق للوسيل واللؤلؤة والخليج الغربي وغيرها'),
+      L('One-tap WhatsApp on every listing', 'واتساب بلمسة واحدة في كل عقار'),
+      L('Listings managed by the Mirage team', 'عقارات يديرها فريق ميراج بنفسه'),
+    ],
+    seo: {
+      metaTitle: L('Mirage Property Portal with Location Search | M&M', 'بوابة ميراج العقارية مع البحث حسب الموقع | M&M'),
+      metaDescription: L(
+        'How M&M built the Mirage Property portal in Qatar: map search, properties near schools and metro stations, travel-time search and listings the team manages.',
+        'كيف بنت M&M بوابة ميراج العقارية في قطر: البحث على الخريطة، وعقارات قرب المدارس ومحطات المترو، والبحث حسب وقت التنقل، وعقارات يديرها الفريق بنفسه.',
+      ),
+    },
+    showOnWebDevPage: true,
+  },
+
   // ── ICC Qatar (Laravel) ─────────────────────────────────────────────────────
   {
     id: 'icc-qatar',
