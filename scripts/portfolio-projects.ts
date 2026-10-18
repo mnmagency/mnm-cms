@@ -231,6 +231,56 @@ Each listing has a full gallery, key specs, a virtual tour, a viewing request fo
     showOnWebDevPage: true,
   },
 
+  // ── CUQ Ulster University (WordPress) ───────────────────────────────────────
+  {
+    id: 'cuq-ulster',
+    slug: 'cuq-ulster',
+    order: 29,
+    title: L('CUQ Ulster University', 'جامعة CUQ أولستر'),
+    clientName: L('City University Qatar, in partnership with Ulster University', 'جامعة المدينة قطر بالشراكة مع جامعة أولستر'),
+    websiteUrl: 'https://cuq-ulster.edu.qa',
+    category: L('Education', 'التعليم'),
+    projectType: L('University website', 'موقع جامعي'),
+    technologies: ['WordPress', 'BeTheme', 'TranslatePress'],
+    summary: L(
+      'The bilingual website of City University Qatar, which offers UK degrees from Ulster University on its campus in Lusail.',
+      'الموقع ثنائي اللغة لجامعة المدينة قطر، التي تقدّم شهادات بريطانية من جامعة أولستر في حرمها الجامعي بلوسيل.',
+    ),
+    overview: L(
+      'City University Qatar offers UK undergraduate and postgraduate degrees from Ulster University, as well as foundation programmes and IELTS testing. Its website has to speak to students, parents and partners at once, in English and Arabic, and turn interest into applications and campus visits.',
+      'تقدّم جامعة المدينة قطر شهادات البكالوريوس والدراسات العليا البريطانية من جامعة أولستر، إلى جانب البرامج التأسيسية واختبارات IELTS. وعلى موقعها أن يخاطب الطلاب وأولياء الأمور والشركاء معاً، بالعربية والإنجليزية، وأن يحوّل الاهتمام إلى طلبات التحاق وزيارات للحرم الجامعي.',
+    ),
+    solution: L(
+      `A bilingual WordPress website the university team updates themselves, from programmes and admissions to news and events.
+
+The homepage leads straight to the four things prospective students want most: the degree programmes, booking an appointment with the admissions team, applying online, and a 360° virtual tour of the campus, labs, classrooms and sports facilities.
+
+Behind that sit the full programme pages, admissions and fees, a dedicated IELTS testing centre page for paper and computer based exams, student life, alumni and careers, plus a newsroom that keeps the site fresh.`,
+      `موقع ثنائي اللغة على WordPress يحدّثه فريق الجامعة بنفسه، من البرامج والقبول إلى الأخبار والفعاليات.
+
+تقود الصفحة الرئيسية مباشرة إلى أهم أربعة أشياء يبحث عنها الطالب: البرامج الأكاديمية، وحجز موعد مع فريق القبول، والتقديم عبر الإنترنت، وجولة افتراضية بزاوية 360° في الحرم الجامعي والمختبرات والقاعات والمرافق الرياضية.
+
+وخلفها صفحات البرامج كاملة، والقبول والرسوم، وصفحة مخصصة لمركز اختبارات IELTS الورقية والحاسوبية، والحياة الطلابية، والخريجين، والوظائف، إضافة إلى غرفة أخبار تُبقي الموقع متجدداً.`,
+    ),
+    features: [
+      L('English and Arabic versions', 'نسختان بالعربية والإنجليزية'),
+      L('Online applications and admissions appointments', 'التقديم عبر الإنترنت وحجز مواعيد القبول'),
+      L('360° virtual campus tour', 'جولة افتراضية بزاوية 360° في الحرم الجامعي'),
+      L('Programme pages for foundation, undergraduate and postgraduate study', 'صفحات البرامج التأسيسية والبكالوريوس والدراسات العليا'),
+      L('IELTS testing centre page', 'صفحة مركز اختبارات IELTS'),
+      L('Newsroom, student life, alumni and careers', 'غرفة أخبار والحياة الطلابية والخريجون والوظائف'),
+      L('Content managed by the university team', 'محتوى يديره فريق الجامعة بنفسه'),
+    ],
+    seo: {
+      metaTitle: L('CUQ Ulster University Website | Web Development by M&M', 'موقع جامعة CUQ أولستر | تطوير المواقع من M&M'),
+      metaDescription: L(
+        'How M&M built the bilingual website for City University Qatar and Ulster University: programmes, online applications, a 360° campus tour and IELTS testing.',
+        'كيف بنت M&M الموقع ثنائي اللغة لجامعة المدينة قطر وجامعة أولستر: البرامج والتقديم عبر الإنترنت وجولة 360° في الحرم واختبارات IELTS.',
+      ),
+    },
+    showOnWebDevPage: true,
+  },
+
   // ── ICC Qatar (Laravel) ─────────────────────────────────────────────────────
   {
     id: 'icc-qatar',
