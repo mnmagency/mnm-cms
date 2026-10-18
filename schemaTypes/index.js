@@ -1502,6 +1502,156 @@ export const schemaTypes = [
         },
         { name: 'ctaText', title: 'Primary CTA Text', type: 'localeString', description: 'e.g. "Get My Free SEO Audit"' },
         { name: 'trustNote', title: 'Trust Note (small text below CTA)', type: 'localeString', description: 'e.g. "No commitment · 30-min call"' },
+        { name: 'secondaryText', title: 'Secondary Link Text', type: 'localeString', description: 'Shown next to the CTA when Featured Web Projects are set, e.g. "See our work". Scrolls to the projects.' },
+        {
+          name: 'showcase',
+          title: 'Show portfolio showcase instead of the hero image',
+          type: 'boolean',
+          initialValue: false,
+          description: 'Shows screenshots of the Featured Web Projects (below) in a browser frame. Real work is the strongest hero asset.',
+        },
+        {
+          name: 'backgroundImage',
+          title: 'Hero Background Image (optional)',
+          type: 'image',
+          options: { hotspot: true },
+          description: 'Sits behind the navy overlay. Also used as the poster for the background video.',
+        },
+        {
+          name: 'backgroundVideo',
+          title: 'Hero Background Video (optional, MP4)',
+          type: 'file',
+          options: { accept: 'video/mp4' },
+          description: 'Short silent loop (5 to 10 s, under 4 MB). Plays muted behind the navy overlay on desktop.',
+        },
+        {
+          name: 'stats',
+          title: 'Hero Proof Points',
+          type: 'array',
+          description: 'Two to four short facts under the CTA, e.g. "15 years | building in Doha". Only true, checkable claims.',
+          of: [{
+            type: 'object',
+            fields: [
+              { name: 'value', title: 'Value', type: 'localeString' },
+              { name: 'label', title: 'Label', type: 'localeString' },
+            ],
+            preview: { select: { v: 'value.en', l: 'label.en' }, prepare: ({ v, l }) => ({ title: v || 'Stat', subtitle: l }) },
+          }],
+        },
+      ],
+    },
+
+    // Authority signals (logo bar + badges)
+    {
+      name: 'authority',
+      title: 'Authority Signals (logo bar)',
+      type: 'object',
+      fields: [
+        { name: 'title', title: 'Title', type: 'localeString', description: 'e.g. "Trusted by brands across Qatar"' },
+        { name: 'useHomepageLogos', title: 'Use the client logos from the Homepage', type: 'boolean', initialValue: true },
+        {
+          name: 'logos',
+          title: 'Logos (used when the homepage option is off)',
+          type: 'array',
+          of: [{
+            type: 'object',
+            fields: [
+              { name: 'name', title: 'Client Name', type: 'localeString' },
+              { name: 'logo', title: 'Logo', type: 'image' },
+            ],
+            preview: { select: { title: 'name.en', media: 'logo' } },
+          }],
+        },
+        {
+          name: 'badges',
+          title: 'Badges',
+          type: 'array',
+          description: 'Short credentials shown under the logos, e.g. "Bilingual EN / AR team".',
+          of: [{ type: 'localeString' }],
+        },
+      ],
+    },
+
+    // Problem framed as a question (AI-query style) + direct answer
+    {
+      name: 'problem',
+      title: 'Problem (framed as a question)',
+      type: 'object',
+      description: 'Write the title the way people ask AI assistants. Answer it directly in the first sentence.',
+      fields: [
+        { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
+        { name: 'question', title: 'Question (H2)', type: 'localeString' },
+        { name: 'answer', title: 'Direct Answer', type: 'localeText' },
+        { name: 'points', title: 'Supporting Points', type: 'array', of: [{ type: 'localeString' }] },
+        {
+          name: 'image', title: 'Image', type: 'image', options: { hotspot: true },
+          fields: [{ name: 'alt', title: 'Alt Text', type: 'localeString' }],
+        },
+      ],
+    },
+
+    // Solution framed as the answer
+    {
+      name: 'solution',
+      title: 'Solution (the answer)',
+      type: 'object',
+      fields: [
+        { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
+        { name: 'question', title: 'Question / Heading (H2)', type: 'localeString' },
+        { name: 'answer', title: 'Direct Answer', type: 'localeText' },
+        { name: 'points', title: 'Supporting Points', type: 'array', of: [{ type: 'localeString' }] },
+        {
+          name: 'image', title: 'Image', type: 'image', options: { hotspot: true },
+          fields: [{ name: 'alt', title: 'Alt Text', type: 'localeString' }],
+        },
+      ],
+    },
+
+    // Value anchoring (ROI, not price)
+    {
+      name: 'value',
+      title: 'Value Anchoring (ROI, not price)',
+      type: 'object',
+      fields: [
+        { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
+        { name: 'title', title: 'Title', type: 'localeString' },
+        { name: 'subtitle', title: 'Subtitle', type: 'localeText' },
+        {
+          name: 'items',
+          title: 'Figures',
+          type: 'array',
+          of: [{
+            type: 'object',
+            fields: [
+              { name: 'value', title: 'Big Figure', type: 'localeString', description: 'e.g. "53%"' },
+              { name: 'label', title: 'What it means', type: 'localeText' },
+              { name: 'source', title: 'Source (citation)', type: 'localeString', description: 'e.g. "Google research". Always cite.' },
+              { name: 'sourceUrl', title: 'Source URL', type: 'url' },
+            ],
+            preview: { select: { v: 'value.en', s: 'source.en' }, prepare: ({ v, s }) => ({ title: v || 'Figure', subtitle: s }) },
+          }],
+        },
+      ],
+    },
+
+    // Portfolio projects shown on this landing page
+    {
+      name: 'featuredWebProjects',
+      title: 'Featured Web Projects',
+      type: 'array',
+      description: 'Shown as project stories and in the hero showcase.',
+      of: [{ type: 'reference', to: [{ type: 'webProject' }] }],
+    },
+    {
+      name: 'projectsSection',
+      title: 'Projects Section Copy',
+      type: 'object',
+      fields: [
+        { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
+        { name: 'title', title: 'Title', type: 'localeString' },
+        { name: 'subtitle', title: 'Subtitle', type: 'localeText' },
+        { name: 'linkText', title: 'Project Link Text', type: 'localeString', description: 'e.g. "See the project →"' },
+        { name: 'allText', title: 'All Projects Link Text', type: 'localeString', description: 'e.g. "View full portfolio"' },
       ],
     },
 
@@ -1631,7 +1781,7 @@ export const schemaTypes = [
             type: 'object',
             fields: [
               { name: 'name', type: 'localeString', title: 'Tier Name' },
-              { name: 'price', type: 'string', title: 'Price', description: 'e.g. "5,000 QAR"' },
+              { name: 'price', type: 'string', title: 'Price (optional)', description: 'e.g. "5,000 QAR". Leave empty to compare options without prices.' },
               { name: 'period', type: 'localeString', title: 'Period', description: 'e.g. "/month"' },
               { name: 'description', type: 'localeText', title: 'Short Description' },
               {
@@ -1646,6 +1796,58 @@ export const schemaTypes = [
             preview: { select: { en: 'name.en', price: 'price' }, prepare: ({en, price}) => ({title: en || 'Tier', subtitle: price}) },
           }],
         },
+        { name: 'footnote', title: 'Footnote', type: 'localeText', description: 'Shown under the options, e.g. "Every proposal is itemised and sent within 24 hours."' },
+      ],
+    },
+
+    // Intent-based offer (lead magnet) + optional exit-intent popup
+    {
+      name: 'offer',
+      title: 'Lead Magnet Offer',
+      type: 'object',
+      fields: [
+        { name: 'show', title: 'Show Offer Section', type: 'boolean', initialValue: false },
+        { name: 'eyebrow', title: 'Eyebrow', type: 'localeString' },
+        { name: 'title', title: 'Title', type: 'localeString' },
+        { name: 'text', title: 'Text', type: 'localeText' },
+        { name: 'points', title: 'What they get', type: 'array', of: [{ type: 'localeString' }] },
+        { name: 'buttonText', title: 'Button Text', type: 'localeString' },
+        { name: 'formTag', title: 'Lead Tag', type: 'string', description: 'Pre-fills the form service, e.g. "Free Website Review". Falls back to the Service Tag.' },
+        {
+          name: 'image', title: 'Image', type: 'image', options: { hotspot: true },
+          fields: [{ name: 'alt', title: 'Alt Text', type: 'localeString' }],
+        },
+        { name: 'exitIntent', title: 'Also show as exit-intent popup (desktop, once per visit)', type: 'boolean', initialValue: false },
+        { name: 'popupTitle', title: 'Popup Title', type: 'localeString' },
+        { name: 'popupText', title: 'Popup Text', type: 'localeText' },
+        { name: 'popupDismissText', title: 'Popup Dismiss Text', type: 'localeString', description: 'e.g. "No thanks"' },
+      ],
+    },
+
+    // Human support
+    {
+      name: 'support',
+      title: 'Human Support',
+      type: 'object',
+      fields: [
+        { name: 'title', title: 'Title', type: 'localeString', description: 'e.g. "Prefer to talk to a person?"' },
+        { name: 'text', title: 'Text', type: 'localeText' },
+        { name: 'whatsappText', title: 'WhatsApp Button Text', type: 'localeString' },
+        { name: 'whatsappMessage', title: 'WhatsApp Pre-filled Message', type: 'localeString' },
+        { name: 'phone', title: 'Phone (optional)', type: 'string', description: 'Falls back to the WhatsApp number in Navigation.' },
+        { name: 'callText', title: 'Call Button Text', type: 'localeString' },
+        { name: 'email', title: 'Email (optional)', type: 'string' },
+      ],
+    },
+
+    // Mobile sticky CTA
+    {
+      name: 'stickyCta',
+      title: 'Mobile Sticky CTA',
+      type: 'object',
+      fields: [
+        { name: 'show', title: 'Show on mobile', type: 'boolean', initialValue: true },
+        { name: 'text', title: 'Button Text', type: 'localeString' },
       ],
     },
 
