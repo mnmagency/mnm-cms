@@ -131,6 +131,56 @@ The B5 and B8 pages have their own configurators with a 360° exterior view, a 7
     showOnWebDevPage: true,
   },
 
+  // ── Yangwang Qatar (WordPress) ──────────────────────────────────────────────
+  {
+    id: 'yangwang-qatar',
+    slug: 'yangwang-qatar',
+    order: 25,
+    title: L('Yangwang Qatar', 'يانغ وانغ قطر'),
+    clientName: L('Yangwang Qatar by Mannai', 'يانغ وانغ قطر من مناعي'),
+    websiteUrl: 'https://yangwangqatar.com',
+    category: L('Automotive', 'السيارات'),
+    projectType: L('Luxury car brand website', 'موقع علامة سيارات فاخرة'),
+    technologies: ['WordPress', 'Bricks Builder', 'PHP'],
+    summary: L(
+      'The official YANGWANG website in Qatar, showcasing the U8 luxury SUV and the U9 Xtreme electric supercar.',
+      'الموقع الرسمي لعلامة يانغ وانغ في قطر، يعرض سيارة U8 الرياضية الفاخرة وسيارة U9 Xtreme الكهربائية الخارقة.',
+    ),
+    overview: L(
+      'YANGWANG is BYD’s ultra-luxury brand, brought to Qatar by Mannai. The cars are bold and the audience is demanding, so the website had to feel like a flagship showroom. We designed and built a bilingual site in English and Arabic where visitors can explore each model in detail and book a test drive or a service visit in a few clicks.',
+      'يانغ وانغ هي العلامة الفاخرة جداً لسيارات BYD، وقد قدّمتها مناعي إلى قطر. السيارات جريئة والجمهور متطلّب، لذلك كان على الموقع أن يبدو كصالة عرض رئيسية. صممنا وبنينا موقعاً ثنائي اللغة بالعربية والإنجليزية يستكشف فيه الزائر كل طراز بالتفصيل، ويحجز تجربة قيادة أو موعد صيانة بنقرات قليلة.',
+    ),
+    solution: L(
+      `For this launch WordPress was the right fit, so we built it on WordPress with a visual page builder. Mannai’s marketing team can update models, offers and news themselves without waiting on developers.
+
+Each model gets a full story page. The U8 page opens with its headline numbers (880 kW, 1,280 Nm, 0 to 100 km/h in 3.6 seconds), then lets visitors switch paint colours and wheels, and moves through design, luxury and off-road power with cinematic video. The U9 Xtreme page tells the story of the fastest electric car on earth.
+
+Around the models sit the pages that turn interest into business: test drive and service booking, ownership and warranty, extended protection plans, the showroom location and a media centre.`,
+      `في هذا الإطلاق كان WordPress الخيار الأنسب، فبنينا الموقع عليه مع أداة تصميم صفحات مرئية، ليتمكن فريق التسويق في مناعي من تحديث الطرازات والعروض والأخبار بنفسه دون انتظار المطورين.
+
+لكل طراز صفحة تروي قصته كاملة. تبدأ صفحة U8 بأرقامها الأبرز (880 كيلوواط، 1,280 نيوتن متر، ومن 0 إلى 100 كم/س في 3.6 ثانية)، ثم تتيح للزائر تبديل ألوان الطلاء والعجلات، وتنتقل بين التصميم والفخامة والقوة على الطرق الوعرة بمقاطع فيديو سينمائية. أما صفحة U9 Xtreme فتروي قصة أسرع سيارة كهربائية في العالم.
+
+وحول الطرازات صفحات تحوّل الاهتمام إلى أعمال: حجز تجربة القيادة والصيانة، والملكية والضمان، وخطط الحماية الممتدة، وموقع صالة العرض، والمركز الإعلامي.`,
+    ),
+    features: [
+      L('Model story pages for the U8 and U9 Xtreme', 'صفحات تروي قصة طرازي U8 وU9 Xtreme'),
+      L('U8 colour and wheel selector', 'أداة اختيار اللون والعجلات لسيارة U8'),
+      L('Animated performance figures and cinematic video', 'أرقام أداء متحركة ومقاطع فيديو سينمائية'),
+      L('Test drive and service booking forms', 'نماذج حجز تجربة القيادة والصيانة'),
+      L('Ownership, warranty and extended protection pages', 'صفحات الملكية والضمان والحماية الممتدة'),
+      L('Full English and Arabic with right-to-left layouts', 'العربية والإنجليزية بالكامل مع تصميم من اليمين إلى اليسار'),
+      L('Content the marketing team edits visually', 'محتوى يعدّله فريق التسويق بصرياً'),
+    ],
+    seo: {
+      metaTitle: L('Yangwang Qatar Website on WordPress | M&M', 'موقع يانغ وانغ قطر على WordPress | M&M'),
+      metaDescription: L(
+        'How M&M built the Yangwang Qatar website on WordPress: U8 and U9 Xtreme model pages, colour selector, test drive booking and full Arabic.',
+        'كيف بنت M&M موقع يانغ وانغ قطر على WordPress: صفحات طرازي U8 وU9 Xtreme، واختيار الألوان، وحجز تجربة القيادة، والعربية بالكامل.',
+      ),
+    },
+    showOnWebDevPage: true,
+  },
+
   // ── ICC Qatar (Laravel) ─────────────────────────────────────────────────────
   {
     id: 'icc-qatar',
