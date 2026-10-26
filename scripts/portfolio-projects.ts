@@ -281,6 +281,56 @@ Behind that sit the full programme pages, admissions and fees, a dedicated IELTS
     showOnWebDevPage: true,
   },
 
+  // ── Business Trading Company (WordPress) ────────────────────────────────────
+  {
+    id: 'btc-doha',
+    slug: 'btc-doha',
+    order: 32,
+    title: L('Business Trading Company', 'شركة الأعمال التجارية'),
+    clientName: L('Business Trading Company (BTC)', 'شركة الأعمال التجارية (BTC)'),
+    websiteUrl: 'https://btcdoha.com',
+    category: L('Retail & Real Estate', 'التجزئة والعقارات'),
+    projectType: L('Corporate group website', 'موقع مجموعة شركات'),
+    technologies: ['WordPress', 'WPBakery', 'Gravity Forms'],
+    summary: L(
+      'The corporate website of Business Trading Company, the Qatari group behind Villaggio Mall, Landmark Mall and Gulf Mall.',
+      'الموقع المؤسسي لشركة الأعمال التجارية، المجموعة القطرية التي تقف خلف فيلاجيو مول ولاندمارك مول وجلف مول.',
+    ),
+    overview: L(
+      'Business Trading Company (BTC) has shaped retail in Qatar since 1997. It develops and manages some of the country’s best known malls and runs fashion, hospitality, food and entertainment brands. They needed one website that presents the whole group clearly to partners, tenants, shoppers and job seekers.',
+      'تساهم شركة الأعمال التجارية (BTC) في تشكيل قطاع التجزئة في قطر منذ عام 1997، إذ تطوّر وتدير بعضاً من أشهر المراكز التجارية في البلاد، وتدير علامات في الأزياء والضيافة والمطاعم والترفيه. واحتاجت إلى موقع واحد يقدّم المجموعة كاملة بوضوح للشركاء والمستأجرين والمتسوقين والباحثين عن عمل.',
+    ),
+    solution: L(
+      `A WordPress website with a premium gold and charcoal design that matches the BTC brand, built so the BTC team can update news, brands and offers themselves.
+
+The homepage introduces every line of business, from asset management and fashion retail to hospitality, F&B, leisure and joint ventures, with the group’s key numbers: more than 3,000 employees, 50 nationalities, 100 brands and 10 countries.
+
+Dedicated pages showcase the malls BTC manages, with full facts for Villaggio, Landmark and Gulf Mall, alongside the brand portfolio, BTC Global, news and events, careers and contact forms.`,
+      `موقع على WordPress بتصميم فاخر باللونين الذهبي والفحمي يتماشى مع هوية BTC، مبني ليحدّث فريق الشركة الأخبار والعلامات والعروض بنفسه.
+
+تقدّم الصفحة الرئيسية كل قطاعات المجموعة، من إدارة الأصول وتجارة الأزياء إلى الضيافة والمطاعم والترفيه والمشاريع المشتركة، مع أبرز أرقامها: أكثر من 3,000 موظف و50 جنسية و100 علامة تجارية و10 دول.
+
+وتعرض صفحات مخصصة المراكز التجارية التي تديرها BTC، مع معلومات كاملة عن فيلاجيو ولاندمارك وجلف مول، إلى جانب محفظة العلامات وBTC Global والأخبار والفعاليات والوظائف ونماذج التواصل.`,
+    ),
+    features: [
+      L('Group overview across seven business lines', 'نظرة شاملة على سبعة قطاعات أعمال'),
+      L('Mall pages for Villaggio, Landmark and Gulf Mall', 'صفحات لفيلاجيو ولاندمارك وجلف مول'),
+      L('Brand portfolio from luxury to high street', 'محفظة علامات من الفاخرة إلى الشعبية'),
+      L('Animated key figures', 'أرقام رئيسية متحركة'),
+      L('News, events and offers', 'الأخبار والفعاليات والعروض'),
+      L('Careers and contact forms', 'نماذج الوظائف والتواصل'),
+      L('Content managed by the BTC team', 'محتوى يديره فريق BTC بنفسه'),
+    ],
+    seo: {
+      metaTitle: L('Business Trading Company Website | Web Development by M&M', 'موقع شركة الأعمال التجارية | تطوير المواقع من M&M'),
+      metaDescription: L(
+        'How M&M built the WordPress website for Business Trading Company in Qatar: the group’s malls, brands, business lines, news and careers in one place.',
+        'كيف بنت M&M موقع شركة الأعمال التجارية في قطر على WordPress: المراكز التجارية والعلامات وقطاعات الأعمال والأخبار والوظائف في مكان واحد.',
+      ),
+    },
+    showOnWebDevPage: true,
+  },
+
   // ── ICC Qatar (Laravel) ─────────────────────────────────────────────────────
   {
     id: 'icc-qatar',
