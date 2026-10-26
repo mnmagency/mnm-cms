@@ -1470,6 +1470,13 @@ export const schemaTypes = [
       type: 'string',
       description: 'Pre-filled in the strategy form so leads come tagged with the right campaign (e.g. "SEO Retainer Qatar").',
     },
+    {
+      name: 'hideFromSearch',
+      title: 'Hide from Google (ads only)',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Turn on when a matching service page should rank instead (e.g. Web Development). Adds noindex,follow and removes the page from the sitemap. Ads still work.',
+    },
 
     // Hero
     {
