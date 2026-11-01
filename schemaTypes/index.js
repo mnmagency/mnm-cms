@@ -757,6 +757,7 @@ export const schemaTypes = [
       title: 'Featured Image',
       type: 'image',
       options: { hotspot: true },
+      fields: [{ name: 'alt', title: 'Alt text', type: 'localeString' }],
     },
     {
       name: 'content',
